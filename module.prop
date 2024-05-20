@@ -1,8 +1,8 @@
-id=openwebview_mulch
-name=Mulch Webview Online Installer
-version=1.0
-versionCode=102
+id=gboardlite_apmods
+name=Gboard Lite Online Installer
+version=Beta 0.1
+versionCode=230110
 author=@apmods
-description= Instala Mulch WebView por defecto en tu dispositivo. By @artistaproducer Telegram: @apmods
-support=https://xdaforums.com/t/magisk-module-webview-open-webview-2-3-0.4496119/
-donate=https://www.paypal.me/f3ff0
+description= [Para armv7 y armv8 - Android 8.1 y superiores] Para restaurar el tema dinamico en A12+ vaya a temas en configuracion de gboard o tambien para ocultar el icono en el launcher
+support=https://t.me/apmods
+about=https://paypal.me/apmodsgroup

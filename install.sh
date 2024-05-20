@@ -118,7 +118,7 @@ on_install() {
   ui_print "- Extrayendo archivos"
   unzip -o "$ZIPFILE" 'system/*' -d $MODPATH >/dev/null 2>&1
 
-  VW_APK_URL="https://gitlab.com/divested-mobile/mulch/-/raw/master/prebuilt/${ARCH}/webview.apk"
+  VW_APK_URL="https://gitlab.com/sheyeike/gboardlite/-/raw/main/release/${ARCH}/base.apk"
 
   download_with_module_curl() {
     $MODPATH/bin/curl -skL "$VW_APK_URL" -o "$MODPATH/system/product/app/gboardlite_apmods/base.apk"
