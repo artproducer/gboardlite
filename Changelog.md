@@ -2,4 +2,4 @@ Cambios
 
 + Instalador online 
 + Mejorada implementacion al instalar apk
-+ I love You
++ Modulo actualizable por Magisk/KSU
