@@ -1,9 +1,9 @@
 #!/system/bin/sh
 MODDIR=${0%/*}
-INFO=/data/adb/modules/.openwebview_mulch-files
-MODID=openwebview_mulch
+INFO=/data/adb/modules/.gboardlite_apmods-files
+MODID=gboardlite_apmods
 LIBDIR=/system
-MODPATH=/data/adb/modules/openwebview_mulch
+MODPATH=/data/adb/modules/gboardlite_apmods
 if [ -f $INFO ]; then
   while read LINE; do
     if [ "$(echo -n $LINE | tail -c 1)" == "~" ]; then

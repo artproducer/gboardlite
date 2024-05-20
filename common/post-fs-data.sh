@@ -1,12 +1,12 @@
 #!/system/bin/sh
 MODDIR=${0%/*}
-INFO=/data/adb/modules/.openwebview_mulch-files
-MODID=openwebview_mulch
+INFO=/data/adb/modules/.gboardlite_apmods-files
+MODID=gboardlite_apmods
 LIBDIR=/system
-MODPATH=/data/adb/modules/openwebview_mulch
+MODPATH=/data/adb/modules/gboardlite_apmods
 MODDIR="${0%/*}"
 API=$(grep_prop ro.build.version.sdk)
-CONFIG_FILE="$MODDIR/.webview"
+CONFIG_FILE="$MODDIR/.latin"
 OVERLAY_LIST="/data/system/overlays.xml"
 RESET=$(grep "RESET=" ${CONFIG_FILE} | cut -d"=" -f2)
 OVERLAY_PATH=$(grep "OVERLAY_PATH=" ${CONFIG_FILE} | cut -d"=" -f2)
@@ -21,10 +21,9 @@ if [[ $RESET -eq 1 ]]; then
 	# clear cache
 	rm -rf /data/resource-cache/* /data/dalvik-cache/* /cache/dalvik-cache/* /data/system/package_cache/*
 	# remove conflict
-	sed -i "/com*webview/d" /data/system/packages.list
-	sed -i "/com*webview/d" /data/system/packages.xml
-	sed -i "/com.linuxandria.WebviewOverlay/d" $OVERLAY_LIST
-	sed -i "/com.linuxandria.android.webviewoverlay/d" $OVERLAY_LIST
+	sed -i "/com*latin/d" /data/system/packages.list
+	sed -i "/com*latin/d" /data/system/packages.xml
+	sed -i "/om.google.android.inputmethod.latin/d" $OVERLAY_LIST
 	# register overlay
 	sed -i "/item packageName=\"${VW_OVERLAY_PACKAGE}\"/d" $OVERLAY_LIST
 	sed -i "s|</overlays>|    <item packageName=\"${VW_OVERLAY_PACKAGE}\" userId=\"0\" targetPackageName=\"android\" baseCodePath=\"${OVERLAY_PATH}/${OVERLAY_APK_FILE}\" state=\"${STATE}\" isEnabled=\"true\" isStatic=\"true\" priority=\"9999\" /></overlays>|" $OVERLAY_LIST
