@@ -165,7 +165,6 @@ on_install() {
     BASEPATH=${BASEPATH%/*}
     if [ "${BASEPATH:1:6}" = "system" ]; then
       ui_print "- Gboard $VERSION es una aplicación del sistema"
-      rm -rf $MODPATH/system/product/app/gboardlite_apmods/base.apk
     fi
   fi
 
