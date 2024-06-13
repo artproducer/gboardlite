@@ -165,8 +165,7 @@ on_install() {
   if [ -n "$BASEPATH" ] && $MODPATH/bin/cmpr $BASEPATH $MODPATH/system/product/app/gboardlite_apmods/base.apk; then
     ui_print "- Gboard $VERSION ya está actualizado!"
   else
-    EXPERIMENTAL=$MODPATH/bin/cmpr $MODPATH/system/product/app/gboardlite_apmods/base.apk
-    ui_print "- Instalando Gboard Lite $EXPERIMENTAL"
+    ui_print "- Instalando Gboard Lite apk"
     set_perm $MODPATH/system/product/app/gboardlite_apmods/base.apk 1000 1000 644 u:object_r:apk_data_file:s0
     if ! pm install --user 0 -i com.google.android.inputmethod.latin -r -d $MODPATH/system/product/app/gboardlite_apmods/base.apk >/dev/null 2>&1; then
       ui_print "- Error: la instalación de APK falló!"
@@ -184,7 +183,7 @@ on_install() {
   if [ -z $(pm list packages -s com.google.android.inputmethod.latin | grep -v nga) ]; then
     ui_print "- Gboard no es una app de sistema!"
     if [ -f /data/adb/modules_update/gboardlite_apmods/system/product/app/gboardlite_apmods/*.apk ]; then
-      ui_print "- Estableciendo Gboard lite $VERSION como App de sistema..."
+      ui_print "- Estableciendo Gboard lite $VERSION como app de sistema..."
     fi
   fi
 
