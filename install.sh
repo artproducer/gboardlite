@@ -186,14 +186,6 @@ on_install() {
       ui_print "- Estableciendo Gboard lite $VERSION como app de sistema..."
     fi
   fi
-
-  ui_print "- Montando Gboard Lite $VERSION"
-  RVPATH=$MODPATH/system/product/app/gboardlite_apmods/base.apk
-  ln -f $MODPATH/base.apk $RVPATH
-  if ! op=$(mount -o bind $RVPATH $BASEPATH 2>&1); then
-    ui_print "- Error: Montaje falló!"
-    abort "$op"
-  fi
   am force-stop com.google.android.inputmethod.latin
   ui_print "- Optimizando Gboard Lite $VERSION"
   nohup cmd package compile --reset com.google.android.inputmethod.latin >/dev/null 2>&1
