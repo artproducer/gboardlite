@@ -11,8 +11,8 @@ PROPFILE="$MODDIR/module.prop"
 if [[ -n "$(ls -a /data/misc/shared_relro)" ]]; then
     if [[ "pm list packages -a | grep -q ${VW_PACKAGE}" ]]; then
         sed -Ei 's/^description=(\[.*][[:space:]]*)?/description=[ ✅ Module is working ] /g' "$PROPFILE"
+        sed -i "s/^author=.*/author=@artistaproducer/g" $MODDIR/module.prop
+    else
+        sed -Ei 's/^description=(\[.*][[:space:]]*)?/description=[ 🙁 Module installed but you need to install Gboard Lite manually ] /g' "$PROPFILE"
     fi
-else
-    sed -Ei 's/^description=(\[.*][[:space:]]*)?/description=[ 🙁 Module installed but you need to install Gboard Lite manually ] /g' "$PROPFILE"
 fi
-
