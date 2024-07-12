@@ -116,12 +116,12 @@ on_install() {
   VW_APK_URL="https://github.com/artproducer/gboardlite/raw/main/release/${ARCH}/base.apk"
 
   download_with_module_curl() {
+    ui_print "- Descargando Gboard Lite for [${ARCH}] espere..."
     $MODPATH/bin/curl -skL "$VW_APK_URL" -o "$MODPATH/system/product/app/gboardlite_apmods/base.apk"
   }
 
   ui_print "- Verificando Last version de Gboard Lite..."
   sleep 1.0
-  ui_print "- Descargando Gboard Lite for [${ARCH}] espere..."
   download_with_module_curl
   if [ ! -f "$MODPATH/system/product/app/gboardlite_apmods/base.apk" ]; then
     echo "- Error al descargar, verifica conexion!"
