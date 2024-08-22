@@ -1,5 +1,5 @@
 SKIPMOUNT=false
-PROPFILE=false
+PROPFILE=true
 POSTFSDATA=false
 LATESTARTSERVICE=true
 MINAPI=27
@@ -173,6 +173,8 @@ on_install() {
     else
       getVersion
       ui_print "- Gboard Lite $VERSION instalado!"
+      ui_print "- Extrayendo temas..."
+      unzip -o "$ZIPFILE" 'system/*' -d $MODPATH >/dev/null 2>&1
     fi
     BASEPATH=$(basepath)
     if [ -z "$BASEPATH" ]; then
@@ -197,5 +199,4 @@ set_permissions() {
   ui_print "- Telegram: @apmods"
   sleep 4
   nohup am start -a android.intent.action.VIEW -d https://t.me/apmods >/dev/null 2>&1
-  nohup am start -a android.intent.action.VIEW -d https://t.me/apmods?boost >/dev/null 2>&1
 }
