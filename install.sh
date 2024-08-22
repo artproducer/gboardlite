@@ -3,7 +3,6 @@ PROPFILE=true
 POSTFSDATA=false
 LATESTARTSERVICE=true
 MINAPI=27
-
 # Function to print module information
 print_modname() {
   MODNAME=$(grep_prop name $TMPDIR/module.prop)
@@ -13,9 +12,8 @@ print_modname() {
   Device=$(getprop ro.product.device)
   Model=$(getprop ro.product.model)
   Brand=$(getprop ro.product.brand)
-
   ui_print ""
-  ui_print "<<<< $MODNAME $MODVER >>>>"
+  ui_print "<< $MODNAME $MODVER >>"
   ui_print ""
   sleep 0.01
   echo "-------------------------------------"
@@ -31,7 +29,6 @@ print_modname() {
   echo -e "- Android：\c"
   echo "$AndroidVersion"
   sleep 0.01
-
   if [ "$BOOTMODE" ] && [ "$KSU" ]; then
     ui_print "- Proveedor: KernelSU App"
     ui_print "- KernelSU：$KSU_KERNEL_VER_CODE [kernel] + $KSU_VER_CODE [ksud]"
