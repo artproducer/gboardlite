@@ -1,3 +1,3 @@
 Cambios
 
-+ Gboard apk version 14.7.06
++ Update Gboard Lite apk version 14.8.05
