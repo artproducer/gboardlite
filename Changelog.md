@@ -11,9 +11,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🔄 In Development
 - Enhanced error handling and validation
-- Multi-language support for installation scripts
 - Advanced configuration options
 - Performance monitoring improvements
+
+---
+
+## [1.1.0] - 2025-09-19 🌍
+
+### ✨ Added
+- **Multi-language installation support** - Scripts now detect system language and display messages in: English, Spanish, Portuguese, French, and Russian.
+- **Language fallback system** - Defaults to English if system language is not supported.
+- **Localized error messages** - Common installation errors now appear in the user’s preferred language.
+- **Translation-ready architecture** - Easy to add new languages via simple JSON or properties files.
+
+### 🔧 Changed
+- Minor optimizations to language detection logic for faster startup.
+- Updated logging to include language context for easier debugging.
+
+### 🐛 Fixed
+- Minor UI inconsistencies in non-English installations.
+- Fixed encoding issues in Cyrillic and accented Latin characters.
 
 ---
 
@@ -111,34 +128,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 📊 Release Statistics
 
-| Version | Release Date | Type | Key Milestone |
-|---------|-------------|------|---------------|
-| 1.0.0   | 2024-09-18  | Stable | First stable release |
-| 0.7.0-beta | 2024-08-25 | Beta | Public testing |
-| 0.6.0-beta | 2024-08-10 | Beta | Core functionality |
-| 0.5.0-alpha | 2024-07-28 | Alpha | Initial prototype |
+| Version    | Release Date | Type   | Key Milestone              |
+|------------|--------------|--------|----------------------------|
+| 1.1.0      | 2025-09-19   | Stable | Multi-language support     |
+| 1.0.0      | 2024-09-18   | Stable | First stable release       |
+| 0.7.0-beta | 2024-08-25   | Beta   | Public testing             |
+| 0.6.0-beta | 2024-08-10   | Beta   | Core functionality         |
+| 0.5.0-alpha| 2024-07-28   | Alpha  | Initial prototype          |
 
 ---
 
 ## 🎯 Roadmap
 
-### Version 1.1.0 (Planned)
-- [ ] Advanced configuration options
-- [ ] Multi-language installation support
-- [ ] Performance analytics dashboard
-- [ ] Auto-update mechanism
-
-### Version 1.2.0 (Future)
-- [ ] Theme customization support
-- [ ] Advanced backup management
-- [ ] Cloud sync integration
-- [ ] Enhanced security features
+### Version 1.2.0 (Planned)
+- [ ] Charging XD
 
 ---
 
 ## 🔗 Links
 
-- **Download Latest**: [v1.0.0 Release](../../releases/tag/v1.0.0)
+- **Download Latest**: [v1.1.0 Release](../../releases/tag/v1.1.0)
 - **Report Issues**: [GitHub Issues](../../issues)
 - **Join Community**: [Telegram @apmods](https://t.me/apmods)
 - **Get Support**: [Telegram Chat](https://t.me/apmodsgrupo)
@@ -147,11 +156,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 📝 Migration Notes
 
-### From Beta 0.7 to Stable 1.0
+### From Stable 1.0 to 1.1
 - **Automatic migration** - No manual steps required
-- **Settings preserved** - All your configurations will be maintained  
-- **Performance boost** - Expect faster installation and better reliability
-- **New features** - Enhanced logging and error handling available
+- **Settings preserved** - All your configurations remain intact
+- **New feature** - Enjoy installation messages in your system language!
+- **Backward compatible** - Safe upgrade with no breaking changes
 
 ---
 
@@ -163,14 +172,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🗑️ **Removed** - Deprecated or removed features
 - ⚠️ **Known Issues** - Acknowledged problems (Beta versions)
 - 🎉 **Major Release** - Significant milestone versions
+- 🌍 **Localization** - Language and region support
 
 ---
 
 <div align="center">
 
-**🎉 Congratulations on reaching v1.0.0! 🎉**
+**🌍 ¡Soporte multilingüe llega en v1.1.0! 🌍**
 
-*From prototype to stable release - a developer's journey*
+*Haciendo la instalación más accesible para todos*
 
 **Maintained by [APMods Team](https://t.me/apmods)**
 

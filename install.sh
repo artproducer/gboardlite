@@ -13,6 +13,287 @@ MINAPI=27
 # Global variables
 VERSION=""
 BASEPATH=""
+LANG_ES=false
+
+# Function to detect system language
+detect_language() {
+	local system_lang=$(getprop persist.sys.locale)
+	if [ -z "$system_lang" ]; then
+		system_lang=$(getprop ro.product.locale.language)
+	fi
+
+	case "$system_lang" in
+	*es* | *ES* | es_* | ES_* | ES-* | es-*)
+		LANG_ES=true
+		;;
+	*)
+		LANG_ES=false
+		;;
+	esac
+}
+
+# Function to print localized messages
+ui_print_lang() {
+	local key="$1"
+	case "$key" in
+	"header")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "<<<< $MODNAME $MODVER >>>>"
+		else
+			ui_print "<<<< $MODNAME $MODVER >>>>"
+		fi
+		;;
+	"module_info")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Módulo: $MODNAME"
+			ui_print "- Versión: $MODVER"
+			ui_print "- Autor: $DV"
+			ui_print "- Android: $AndroidVersion"
+			ui_print "- Dispositivo: $Brand $Model ($Device)"
+		else
+			ui_print "- Module: $MODNAME"
+			ui_print "- Version: $MODVER"
+			ui_print "- Author: $DV"
+			ui_print "- Android: $AndroidVersion"
+			ui_print "- Device: $Brand $Model ($Device)"
+		fi
+		;;
+	"provider_ksu")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Proveedor: KernelSU App"
+		else
+			ui_print "- Provider: KernelSU App"
+		fi
+		ui_print "- KernelSU: $KSU_KERNEL_VER_CODE [kernel] + $KSU_VER_CODE [ksud]"
+		;;
+	"provider_magisk")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Proveedor: Magisk App"
+		else
+			ui_print "- Provider: Magisk App"
+		fi
+		ui_print "- Magisk: $MAGISK_VER ($MAGISK_VER_CODE)"
+		;;
+	"multiple_root_error")
+		ui_print "*********************************************************"
+		if [ "$LANG_ES" = true ]; then
+			ui_print "! ¡Las implementaciones de múltiples root NO son compatibles!"
+			ui_print "! Por favor desinstala Magisk antes de instalar este módulo"
+		else
+			ui_print "! Multiple root implementations are NOT supported!"
+			ui_print "! Please uninstall Magisk before installing this module"
+		fi
+		;;
+	"unsupported_recovery")
+		ui_print "*********************************************************"
+		if [ "$LANG_ES" = true ]; then
+			ui_print "! Entorno de recovery no compatible"
+			ui_print "! Por favor usa Magisk o KernelSU"
+		else
+			ui_print "! Unsupported recovery environment"
+			ui_print "! Please use Magisk or KernelSU"
+		fi
+		;;
+	"api_error")
+		if [ "$LANG_ES" = true ]; then
+			abort "- ¡Tu API del sistema ($API) es menor que el API mínimo requerido ($MINAPI)! ¡Abortando!"
+		else
+			abort "- Your system API ($API) is lower than minimum required API ($MINAPI)! Aborting!"
+		fi
+		;;
+	"extracting_binaries")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Extrayendo binarios requeridos"
+		else
+			ui_print "- Extracting required binaries"
+		fi
+		;;
+	"failed_extract_curl")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "! Error al extraer el binario curl"
+		else
+			ui_print "! Failed to extract curl binary"
+		fi
+		;;
+	"failed_extract_cmpr")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "! Error al extraer el binario cmpr"
+		else
+			ui_print "! Failed to extract cmpr binary"
+		fi
+		;;
+	"curl_not_found")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "! Binario curl no encontrado después de la extracción"
+		else
+			ui_print "! curl binary not found after extraction"
+		fi
+		;;
+	"extracting_system_files")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Extrayendo archivos del sistema"
+		else
+			ui_print "- Extracting system files"
+		fi
+		;;
+	"current_gboard_version")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Versión actual de Gboard: $VERSION"
+		else
+			ui_print "- Current Gboard version: $VERSION"
+		fi
+		;;
+	"checking_latest_version")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Verificando la última versión de Gboard Lite..."
+		else
+			ui_print "- Checking for latest Gboard Lite version..."
+		fi
+		;;
+	"downloading_gboard")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Descargando Gboard Lite para [$ARCH], por favor espera..."
+		else
+			ui_print "- Downloading Gboard Lite for [$ARCH], please wait..."
+		fi
+		;;
+	"download_failed")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "! Descarga falló - verifica tu conexión a internet"
+		else
+			ui_print "! Download failed - check your internet connection"
+		fi
+		;;
+	"download_invalid")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "! El archivo descargado es inválido o está vacío"
+		else
+			ui_print "! Downloaded file is invalid or empty"
+		fi
+		;;
+	"download_success")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Descarga completada exitosamente"
+		else
+			ui_print "- Download completed successfully"
+		fi
+		;;
+	"gboard_not_installed")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Gboard no está instalado"
+		else
+			ui_print "- Gboard is not installed"
+		fi
+		;;
+	"found_existing_gboard")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Encontrada instalación existente de Gboard"
+		else
+			ui_print "- Found existing Gboard installation"
+		fi
+		;;
+	"unmounting_gboard")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Desmontando montajes existentes de Gboard"
+		else
+			ui_print "- Unmounting existing Gboard mounts"
+		fi
+		;;
+	"gboard_up_to_date")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- ¡Gboard $VERSION ya está actualizado!"
+		else
+			ui_print "- Gboard $VERSION is already up to date!"
+		fi
+		;;
+	"installing_gboard_apk")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Instalando APK de Gboard Lite"
+		else
+			ui_print "- Installing Gboard Lite APK"
+		fi
+		;;
+	"apk_install_failed")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "! Falló la instalación del APK"
+		else
+			ui_print "! APK installation failed"
+		fi
+		;;
+	"gboard_installed_success")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- ¡Gboard Lite $VERSION instalado exitosamente!"
+		else
+			ui_print "- Gboard Lite $VERSION installed successfully!"
+		fi
+		;;
+	"setting_system_app")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Configurando Gboard Lite como aplicación del sistema..."
+		else
+			ui_print "- Setting Gboard Lite as system app..."
+		fi
+		;;
+	"gboard_is_system_app")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Gboard Lite es ahora una aplicación del sistema"
+		else
+			ui_print "- Gboard Lite is now a system app"
+		fi
+		;;
+	"optimizing_gboard")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Optimizando Gboard Lite $VERSION"
+		else
+			ui_print "- Optimizing Gboard Lite $VERSION"
+		fi
+		;;
+	"installation_complete")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- ¡Instalación completada exitosamente!"
+		else
+			ui_print "- Installation completed successfully!"
+		fi
+		;;
+	"visit_telegram")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Visita nuestro Telegram: @apmods"
+			ui_print "- Visita nuestro YouTube: Diman Ap"
+		else
+			ui_print "- Visit our Telegram: @apmods"
+			ui_print "- Visit our YouTube: Diman Ap"
+		fi
+		;;
+	"failed_create_dirs")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "! Error al crear directorios"
+		else
+			ui_print "! Failed to create directories"
+		fi
+		;;
+	"installation_failed")
+		if [ "$LANG_ES" = true ]; then
+			abort "Instalación falló"
+		else
+			abort "Installation failed"
+		fi
+		;;
+	"failed_download_gboard")
+		if [ "$LANG_ES" = true ]; then
+			abort "Error al descargar Gboard Lite"
+		else
+			abort "Failed to download Gboard Lite"
+		fi
+		;;
+	"failed_install_gboard")
+		if [ "$LANG_ES" = true ]; then
+			abort "Error al instalar Gboard Lite"
+		else
+			abort "Failed to install Gboard Lite"
+		fi
+		;;
+	esac
+}
 
 # Function to get Gboard version
 get_version() {
@@ -38,6 +319,8 @@ get_basepath() {
 
 # Function to print module information
 print_modname() {
+	detect_language # <-- ¡AÑADIDO!
+
 	local MODNAME=$(grep_prop name $TMPDIR/module.prop)
 	local MODVER=$(grep_prop version $TMPDIR/module.prop)
 	local DV=$(grep_prop author $TMPDIR/module.prop)
@@ -46,30 +329,26 @@ print_modname() {
 	local Model=$(getprop ro.product.model)
 	local Brand=$(getprop ro.product.brand)
 
+	# Exportar como globales para ui_print_lang
+	export MODNAME MODVER DV AndroidVersion Device Model Brand
+
 	ui_print ""
-	ui_print "<<<< $MODNAME $MODVER >>>>"
+	ui_print_lang "header"
 	ui_print ""
 	ui_print "-------------------------------------"
-	ui_print "- Module: $MODNAME"
-	ui_print "- Version: $MODVER"
-	ui_print "- Author: $DV"
-	ui_print "- Android: $AndroidVersion"
-	ui_print "- Device: $Brand $Model ($Device)"
+	ui_print_lang "module_info"
 
 	if [ "$BOOTMODE" ] && [ "$KSU" ]; then
-		ui_print "- Provider: KernelSU App"
-		ui_print "- KernelSU: $KSU_KERNEL_VER_CODE [kernel] + $KSU_VER_CODE [ksud]"
+		ui_print_lang "provider_ksu"
 
 		# Check for conflicting Magisk installation
 		if [ "$(which magisk 2>/dev/null)" ]; then
-			ui_print "*********************************************************"
-			ui_print "! Multiple root implementations are NOT supported!"
-			ui_print "! Please uninstall Magisk before installing this module"
+			ui_print_lang "multiple_root_error"
 			abort "*********************************************************"
 		fi
 
-		# Define paths to remove for KernelSU
-		REMOVE="
+		# Define paths to replace for Ksu
+		REPLACE="
       /system/product/priv-app/LatinIME
       /system/product/app/LatinIME
       /system/product/app/LatinIMEGooglePrebuilt
@@ -78,7 +357,7 @@ print_modname() {
       /system/app/LatinIMEGooglePrebuilt
       /system/product/app/GBoard
       /system/app/SogouInput
-      /system/app/gboardlite_apmods
+      /system/app/glite_apmods
       /system/app/HoneyBoard
       /system/product/app/EnhancedGboard
       /system/product/app/SogouInput_S_Product
@@ -88,8 +367,7 @@ print_modname() {
     "
 
 	elif [ "$BOOTMODE" ] && [ "$MAGISK_VER_CODE" ]; then
-		ui_print "- Provider: Magisk App"
-		ui_print "- Magisk: $MAGISK_VER ($MAGISK_VER_CODE)"
+		ui_print_lang "provider_magisk"
 
 		# Define paths to replace for Magisk
 		REPLACE="
@@ -101,7 +379,7 @@ print_modname() {
       /system/app/LatinIMEGooglePrebuilt
       /system/product/app/GBoard
       /system/app/SogouInput
-      /system/app/gboardlite_apmods
+      /system/app/glite_apmods
       /system/app/HoneyBoard
       /system/product/app/EnhancedGboard
       /system/product/app/SogouInput_S_Product
@@ -110,13 +388,12 @@ print_modname() {
       /system/product/priv-app/OPlusSegurityKeyboard
     "
 	else
-		ui_print "*********************************************************"
-		ui_print "! Unsupported recovery environment"
-		ui_print "! Please use Magisk or KernelSU"
+		ui_print_lang "unsupported_recovery"
 		abort "*********************************************************"
 	fi
 
 	ui_print "-------------------------------------"
+	sleep 2.0
 }
 
 # Function to download Gboard Lite APK
@@ -124,19 +401,19 @@ download_gboard_lite() {
 	local VW_APK_URL="https://github.com/artproducer/gboardlite/raw/main/release/${ARCH}/base.apk"
 	local APK_PATH="$MODPATH/system/product/app/gboardlite_apmods/base.apk"
 
-	ui_print "- Downloading Gboard Lite for [$ARCH], please wait..."
+	ui_print_lang "downloading_gboard"
 
 	if ! $MODPATH/bin/curl -skL --connect-timeout 30 --max-time 300 "$VW_APK_URL" -o "$APK_PATH"; then
-		ui_print "! Download failed - check your internet connection"
+		ui_print_lang "download_failed"
 		return 1
 	fi
 
 	if [ ! -f "$APK_PATH" ] || [ ! -s "$APK_PATH" ]; then
-		ui_print "! Downloaded file is invalid or empty"
+		ui_print_lang "download_invalid"
 		return 1
 	fi
 
-	ui_print "- Download completed successfully"
+	ui_print_lang "download_success"
 	return 0
 }
 
@@ -145,18 +422,18 @@ handle_existing_gboard() {
 	local package_info=$(pm list packages com.google.android.inputmethod.latin 2>/dev/null | grep -v nga)
 
 	if [ -z "$package_info" ]; then
-		ui_print "- Gboard is not installed"
+		ui_print_lang "gboard_not_installed"
 		return 0
 	fi
 
-	ui_print "- Found existing Gboard installation"
+	ui_print_lang "found_existing_gboard"
 
 	# Force stop Gboard
 	am force-stop com.google.android.inputmethod.latin 2>/dev/null
 
 	# Unmount any existing mounts
 	if grep -q com.google.android.inputmethod.latin /proc/self/mountinfo 2>/dev/null; then
-		ui_print "- Unmounting existing Gboard mounts"
+		ui_print_lang "unmounting_gboard"
 		grep com.google.android.inputmethod.latin /proc/self/mountinfo | while IFS= read -r line; do
 			local mountpoint=$(echo "$line" | awk '{print $5}')
 			if [ -n "$mountpoint" ]; then
@@ -176,24 +453,24 @@ install_gboard_lite() {
 
 	# Check if current version matches
 	if [ -n "$BASEPATH" ] && $MODPATH/bin/cmpr "$BASEPATH" "$APK_PATH" 2>/dev/null; then
-		ui_print "- Gboard $VERSION is already up to date!"
+		ui_print_lang "gboard_up_to_date"
 		return 0
 	fi
 
-	ui_print "- Installing Gboard Lite APK"
+	ui_print_lang "installing_gboard_apk"
 
 	# Set proper permissions
 	set_perm "$APK_PATH" 1000 1000 644 u:object_r:apk_data_file:s0
 
 	# Install APK
 	if ! pm install --user 0 -i com.google.android.inputmethod.latin -r -d "$APK_PATH" >/dev/null 2>&1; then
-		ui_print "! APK installation failed"
+		ui_print_lang "apk_install_failed"
 		return 1
 	fi
 
 	# Update version info
 	get_version
-	ui_print "- Gboard Lite $VERSION installed successfully!"
+	ui_print_lang "gboard_installed_success"
 
 	# Update module.prop with new version
 	if [ -n "$VERSION" ] && [ "$VERSION" != "unknown" ]; then
@@ -205,7 +482,7 @@ install_gboard_lite() {
 
 # Function to optimize Gboard Lite
 optimize_gboard() {
-	ui_print "- Optimizing Gboard Lite $VERSION"
+	ui_print_lang "optimizing_gboard"
 
 	# Force stop before optimization
 	am force-stop com.google.android.inputmethod.latin 2>/dev/null
@@ -218,33 +495,41 @@ optimize_gboard() {
 
 # Main installation function
 on_install() {
+	detect_language # <-- ¡AÑADIDO! Fundamental para que LANG_ES funcione
+
+	# set description
+	if [ "$LANG_ES" = true ]; then
+		sed -i 's|^description=.*|description=Instalador online de Gboard Lite optimizado para dispositivos ARMv7 y ARM64 (Android 8.1+). Ideal para ROMs personalizadas. ¡Restaura el tema dinámico en Android 12+ desde Ajustes > Temas de Gboard!|' "$MODPATH/module.prop"
+	else
+		sed -i 's|^description=.*|description=Online installer for Gboard Lite, optimized for ARMv7 and ARM64 devices (Android 8.1+). Perfect for custom ROMs. Restore dynamic theme on Android 12+ via Settings > Gboard Themes!|' "$MODPATH/module.prop"
+	fi
 	# Check API level
 	if [ -n "$MINAPI" ] && [ "$API" -lt "$MINAPI" ]; then
-		abort "- Your system API ($API) is lower than minimum required API ($MINAPI)! Aborting!"
+		ui_print_lang "api_error"
 	fi
 
 	# Create necessary directories
+	ui_print_lang "extracting_binaries"
 	mkdir -p "$MODPATH/bin" "$MODPATH/system/product/app/gboardlite_apmods" || {
-		ui_print "! Failed to create directories"
-		abort "Installation failed"
+		ui_print_lang "failed_create_dirs"
+		ui_print_lang "installation_failed"
 	}
 
 	# Extract curl and cmpr binaries
-	ui_print "- Extracting required binaries"
 	if ! unzip -oj "$ZIPFILE" "bin/$ARCH/curl" -d "$MODPATH/bin" >/dev/null 2>&1; then
-		ui_print "! Failed to extract curl binary"
-		abort "Installation failed"
+		ui_print_lang "failed_extract_curl"
+		ui_print_lang "installation_failed"
 	fi
 
 	if ! unzip -oj "$ZIPFILE" "bin/$ARCH/cmpr" -d "$MODPATH/bin" >/dev/null 2>&1; then
-		ui_print "! Failed to extract cmpr binary"
-		abort "Installation failed"
+		ui_print_lang "failed_extract_cmpr"
+		ui_print_lang "installation_failed"
 	fi
 
 	# Verify curl extraction
 	if [ ! -f "$MODPATH/bin/curl" ]; then
-		ui_print "! curl binary not found after extraction"
-		abort "Installation failed"
+		ui_print_lang "curl_not_found"
+		ui_print_lang "installation_failed"
 	fi
 
 	# Set permissions for binaries
@@ -253,17 +538,17 @@ on_install() {
 	export PATH="$MODPATH/bin:$PATH"
 
 	# Extract system files
-	ui_print "- Extracting system files"
+	ui_print_lang "extracting_system_files"
 	unzip -o "$ZIPFILE" 'system/*' -d "$MODPATH" >/dev/null 2>&1
 
 	# Get current Gboard version
 	get_version
-	ui_print "- Current Gboard version: $VERSION"
+	ui_print_lang "current_gboard_version"
 
 	# Download Gboard Lite
-	ui_print "- Checking for latest Gboard Lite version..."
+	ui_print_lang "checking_latest_version"
 	if ! download_gboard_lite; then
-		abort "Failed to download Gboard Lite"
+		ui_print_lang "failed_download_gboard"
 	fi
 
 	# Handle existing Gboard installation
@@ -271,21 +556,21 @@ on_install() {
 
 	# Install Gboard Lite
 	if ! install_gboard_lite; then
-		abort "Failed to install Gboard Lite"
+		ui_print_lang "failed_install_gboard"
 	fi
 
 	# Check if Gboard is system app
 	local system_package=$(pm list packages -s com.google.android.inputmethod.latin 2>/dev/null | grep -v nga)
 	if [ -z "$system_package" ]; then
-		ui_print "- Setting Gboard Lite as system app..."
+		ui_print_lang "setting_system_app"
 	else
-		ui_print "- Gboard Lite is now a system app"
+		ui_print_lang "gboard_is_system_app"
 	fi
 
 	# Optimize the installation
 	optimize_gboard
 
-	ui_print "- Installation completed successfully!"
+	ui_print_lang "installation_complete"
 }
 
 # Function to set final permissions
@@ -293,11 +578,10 @@ set_permissions() {
 	set_perm_recursive "$MODPATH" 0 0 0755 0644
 	set_perm "$MODPATH/bin"/* 0 0 0755
 
-	ui_print "- Visit our Telegram: @apmods"
-	ui_print "- Visit our Spotify: Diman Ap"
+	ui_print_lang "visit_telegram"
 	sleep 2
 
-	# Open Telegram links (non-blocking)
+	# Open Telegram and YouTube links (non-blocking)
 	nohup am start -a android.intent.action.VIEW -d "https://t.me/apmods" >/dev/null 2>&1 &
 	sleep 5
 	nohup am start -a android.intent.action.VIEW -d "https://www.youtube.com/channel/UCBRuuYwPDgH4wPJimY-YBgw" >/dev/null 2>&1 &
