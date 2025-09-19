@@ -135,7 +135,7 @@ We welcome contributions from the community! Here's how you can help:
 ## 📞 Support & Community
 
 - 💬 **Telegram Channel**: [@apmods](https://t.me/apmods)
-- 🆘 **Support Group**: [@apmods_chat](https://t.me/apmodsgroup)
+- 🆘 **Support Group**: [@apmods_chat](https://t.me/apmodsgrupo)
 - 🐛 **Bug Reports**: [GitHub Issues](../../issues)
 - 📧 **Contact**: [@artistaproducer](https://t.me/artistaproducer)
 
