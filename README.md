@@ -57,11 +57,6 @@ Transform your typing experience with Gboard Lite - a streamlined version of Goo
 4. Choose the zip file
 5. Reboot when prompted
 
-### **Method 3: Recovery Installation**
-1. Boot into custom recovery (TWRP/OrangeFox)
-2. Flash the module zip
-3. Reboot system
-
 ## 🛠️ Post-Installation
 
 1. **Open Settings** → **System** → **Languages & input**
