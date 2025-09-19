@@ -168,7 +168,8 @@ log_msg_lang() {
 update_description() {
 	local new_desc="$1"
 	if [ -f "$PROPFILE" ]; then
-		sed -Ei "s/^description=(\[.*\][[:space:]]*)?/description=$new_desc /g" "$PROPFILE"
+		# Reemplazar siempre toda la línea description=
+		sed -i "s/^description=.*/description=$new_desc/" "$PROPFILE"
 		log_msg_lang "description_updated" "$new_desc"
 	else
 		log_msg_lang "prop_not_found"

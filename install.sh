@@ -6,7 +6,7 @@
 # Module configuration
 SKIPMOUNT=false
 PROPFILE=true
-POSTFSDATA=false
+POSTFSDATA=true
 LATESTARTSERVICE=true
 MINAPI=27
 
