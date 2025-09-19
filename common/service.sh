@@ -9,8 +9,8 @@ GBOARD_PACKAGE="com.google.android.inputmethod.latin"
 PROPFILE="$MODDIR/module.prop"
 LANG_ES=false
 # Base descriptions in both languages
-DESC_BASE_ES="Instalador online de Gboard Lite optimizado para dispositivos ARMv7 y ARM64 (Android 8.1+). Ideal para ROMs personalizadas. ¡Restaura el tema dinámico en Android 12+ desde Ajustes > Temas de Gboard!"
-DESC_BASE_EN="Online installer of Gboard Lite optimized for ARMv7 and ARM64 devices (Android 8.1+). Ideal for custom ROMs. Restore the dynamic theme on Android 12+ from Gboard’s Theme Settings!"
+DESC_BASE_ES="Instalador online de Gboard Lite optimizado para dispositivos ARMv7 y ARM64 (Android 8.1+). Ideal para ROMs personalizadas."
+DESC_BASE_EN="Online installer of Gboard Lite optimized for ARMv7 and ARM64 devices (Android 8.1+). Ideal for custom ROMs."
 # Function to detect system language
 detect_language() {
 	local system_lang=$(getprop persist.sys.locale)

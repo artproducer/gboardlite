@@ -1,9 +1,9 @@
 id=gboardlite_apmods
 name=Gboard Lite Online Installer
-version=1.1
-versionCode=109
+version=1.2
+versionCode=110
 author=@apmods
-description=Online installer of Gboard Lite optimized for ARMv7 and ARM64 devices (Android 8.1+). Ideal for custom ROMs. Restore the dynamic theme on Android 12+ from Gboard’s Theme Settings!
+description=Online installer of Gboard Lite optimized for ARMv7 and ARM64 devices (Android 8.1+). Ideal for custom ROMs.
 updateJson=https://raw.githubusercontent.com/artproducer/gboardlite/main/update.json
 support=https://t.me/apmods
 about=https://paypal.me/apmodsgroup
