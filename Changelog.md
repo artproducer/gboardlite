@@ -9,7 +9,7 @@
 ## [1.1.0] - 2025-09-19 
 
 ### ✨ Added
-- **Multi-language installation support** - Scripts now detect system language and display messages in: English, Spanish, Portuguese, French, and Russian.
+- **Multi-language installation support** - Scripts now detect system language and display messages in: English, Spanish.
 - **Language fallback system** - Defaults to English if system language is not supported.
 - **Localized error messages** - Common installation errors now appear in the user’s preferred language.
 - **Translation-ready architecture** - Easy to add new languages via simple JSON or properties files.
