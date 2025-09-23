@@ -153,3 +153,15 @@ main() {
 }
 
 main "$@"
+apply_theme() {
+	light="$1"
+	dark="$2"
+
+	# Elimina configuraciones previas
+	sed -i '/ro.com.google.ime.theme_file=/d' "$PROPFILE"
+	sed -i '/ro.com.google.ime.d_theme_file=/d' "$PROPFILE"
+
+	# Escribe nuevas
+	echo "ro.com.google.ime.theme_file=$light" >>"$PROPFILE"
+	echo "ro.com.google.ime.d_theme_file=$dark" >>"$PROPFILE"
+}

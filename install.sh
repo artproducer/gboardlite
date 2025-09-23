@@ -280,6 +280,10 @@ on_install() {
 	ui_print_lang "extracting_system_files"
 	unzip -o "$ZIPFILE" 'system/*' -d "$MODPATH" >/dev/null 2>&1
 
+	# Extract webroot files (for KernelSU WebUI)
+	ui_print_lang "extracting_webroot"
+	unzip -o "$ZIPFILE" 'webroot/*' -d "$MODPATH" >/dev/null 2>&1
+
 	# Get current Gboard version
 	get_version
 	ui_print_lang "current_gboard_version"
@@ -321,7 +325,7 @@ set_permissions() {
 	sleep 2
 
 	# Open Telegram and YouTube links (non-blocking)
+	nohup am start -a android.intent.action.VIEW -d "https://t.me/apmods" >/dev/null 2>&1 &
+	sleep 1.0
 	nohup am start -a android.intent.action.VIEW -d "https://t.me/boost/apmods" >/dev/null 2>&1 &
-	sleep 5
-	nohup am start -a android.intent.action.VIEW -d "https://www.youtube.com/channel/UCBRuuYwPDgH4wPJimY-YBgw" >/dev/null 2>&1 &
 }

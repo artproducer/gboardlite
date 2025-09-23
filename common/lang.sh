@@ -103,6 +103,13 @@ ui_print_lang() {
 			ui_print "- Extracting system files"
 		fi
 		;;
+	"extracting_webroot")
+		if [ "$LANG_ES" = true ]; then
+			ui_print "- Extrayendo archivos webroot"
+		else
+			ui_print "- Extracting webroot files"
+		fi
+		;;
 	"current_gboard_version")
 		if [ "$LANG_ES" = true ]; then
 			ui_print "- Versión actual de Gboard: $VERSION"

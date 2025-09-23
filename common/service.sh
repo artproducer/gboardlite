@@ -205,21 +205,89 @@ is_gboard_installed() {
 	fi
 }
 
-# Main execution
-main() {
-	# Detect system language first
-	detect_language
+# Iniciar servidor web con busybox httpd
+start_webui_server() {
+	WEBROOT="$MODDIR/webroot"
+	PORT=8080
 
+	# Crear directorio cgi-bin si no existe
+	mkdir -p "$WEBROOT/cgi-bin"
+
+	# Dar permisos de ejecución a scripts CGI
+	chmod +x "$WEBROOT"/cgi-bin/*.sh 2>/dev/null
+
+	# Matar instancias previas del servidor
+	pkill -f "busybox httpd -p $PORT" 2>/dev/null
+
+	# Levantar servidor httpd en segundo plano
+	/system/bin/busybox httpd -f -p $PORT -h "$WEBROOT" &
+
+	log_msg "[HTTPD] Servidor web iniciado en http://127.0.0.1:$PORT"
+}
+
+# Escanea temas en $MODDIR/system/etc/gboard_theme y genera lista JSON con nombres
+# Uso: scan_themes
+# Escanea solo los archivos .zip en $MODDIR/system/etc/gboard_theme
+# y genera un JSON con los nombres
+scan_themes() {
+	THEME_SRC="$MODDIR/system/etc/gboard_theme"
+	WEBROOT="$MODDIR/webroot"
+	JSON_OUT="$WEBROOT/themes.json"
+	TMP_JSON="$WEBROOT/.themes.tmp"
+
+	if command -v ui_print >/dev/null 2>&1; then
+		ui_print "- Escaneando temas .zip en $THEME_SRC..."
+	else
+		echo "[scan_themes] Escaneando temas .zip en $THEME_SRC..."
+	fi
+
+	# verificar que exista la carpeta
+	if [ ! -d "$THEME_SRC" ]; then
+		mkdir -p "$WEBROOT"
+		echo "[]" >"$JSON_OUT"
+		return 0
+	fi
+
+	mkdir -p "$WEBROOT"
+	echo "[" >"$TMP_JSON"
+	first=true
+
+	for f in "$THEME_SRC"/*.zip; do
+		[ -f "$f" ] || continue
+		filename=$(basename "$f" | sed 's/"/\\"/g')
+
+		if [ "$first" = true ]; then
+			first=false
+		else
+			echo "," >>"$TMP_JSON"
+		fi
+
+		printf '  { "filename": "%s" }' "$filename" >>"$TMP_JSON"
+	done
+
+	echo "" >>"$TMP_JSON"
+	echo "]" >>"$TMP_JSON"
+
+	mv "$TMP_JSON" "$JSON_OUT"
+
+	if command -v ui_print >/dev/null 2>&1; then
+		ui_print "- Lista de temas guardada en $JSON_OUT"
+	else
+		echo "[scan_themes] Lista de temas guardada en $JSON_OUT"
+	fi
+}
+
+# Llamar al servidor después de completar verificación
+main() {
+	detect_language
 	log_msg_lang "service_started"
 
-	# >>> NUEVO: Establecer descripción base según idioma
 	if [ "$LANG_ES" = true ]; then
 		BASE_DESC="$DESC_BASE_ES"
 	else
 		BASE_DESC="$DESC_BASE_EN"
 	fi
 
-	# Wait for system to be ready (with timeout)
 	local retry_count=0
 	local max_retries=30
 
@@ -228,20 +296,17 @@ main() {
 			log_msg_lang "system_ready" "$retry_count"
 			break
 		fi
-
 		retry_count=$((retry_count + 1))
 		log_msg_lang "waiting_system" "$retry_count" "$max_retries"
 		sleep 2
 	done
 
-	# Check if we timed out
 	if [ $retry_count -eq $max_retries ]; then
 		log_msg_lang "system_timeout"
 		update_description "$BASE_DESC $(get_status_message "error")"
 		exit 1
 	fi
 
-	# Check Gboard installation status
 	if is_gboard_installed; then
 		log_msg_lang "verification_success"
 		update_description "$BASE_DESC $(get_status_message "working")"
@@ -249,8 +314,9 @@ main() {
 		log_msg_lang "gboard_not_found"
 		update_description "$BASE_DESC $(get_status_message "manual_install")"
 	fi
-
+	scan_themes
 	log_msg_lang "service_completed"
+
 }
 
 # Execute main function

@@ -23,6 +23,9 @@ Transform your typing experience with Gboard Lite - a streamlined version of Goo
 - **Multi-Architecture Support** - Works on ARM, ARM64 devices
 - **Version Sync** - Maintains compatibility with your current Gboard version
 - **System App Privileges** - Full access to Android keyboard APIs
+- **🌐 WebUI Theme Manager** - Integrated web interface to scan, preview and apply custom themes
+- **🔄 Auto Theme Detection** - Instantly lists all `.zip` themes available, removing duplicates and sorting results
+- **⚙️ Configurable System Props** - Directly updates `system.prop` with light/dark themes and custom paths
 
 ### 🚫 **What's Removed**
 - Heavy animation effects
@@ -30,6 +33,11 @@ Transform your typing experience with Gboard Lite - a streamlined version of Goo
 - Unnecessary background services
 - Large language model downloads
 - Resource-intensive features
+
+
+> ⚠️ **Important / Importante:**  
+> - **English:** If you are using **KernelSU**, make sure to **disable the "Unmount modules on boot" option** in the KernelSU app settings. Otherwise, the module may not work correctly.  
+> - **Español:** Si estás usando **KernelSU**, asegúrate de **desactivar la opción "Desmontar módulos al iniciar"** en los ajustes de la app de KernelSU. De lo contrario, el módulo podría no funcionar correctamente.  
 
 ## 📋 Requirements
 
@@ -41,21 +49,16 @@ Transform your typing experience with Gboard Lite - a streamlined version of Goo
 | **Storage** | 50MB free space |
 | **Internet** | Required for initial download |
 
+
 ## 🔧 Installation
 
-### **Method 1: Magisk Manager**
+### **Method 1: Magisk/KSU Manager**
 1. Download the latest `.zip` from [Releases](../../releases)
-2. Open Magisk Manager
+2. Open Magisk/KSU Manager
 3. Go to **Modules** → **Install from storage**
 4. Select the downloaded zip file
 5. Reboot your device
-
-### **Method 2: KernelSU**
-1. Download the latest `.zip` from [Releases](../../releases)
-2. Open KernelSU Manager
-3. Navigate to **Modules** → **Install**
-4. Choose the zip file
-5. Reboot when prompted
+6. Open accion for Theme Manager
 
 ## 🛠️ Post-Installation
 

@@ -1,6 +1,17 @@
 # 📋 Changelog
 
-## [1.2.0] - 2025-09-19 🎉
+## [2.0.0] - 2025-09-22 🚀
+
+### ✨ Added
+- **Integración de WebUI para gestión de temas**: ahora los temas se pueden escanear, listar y aplicar desde la interfaz web.
+- **Escaneo automático de temas al verificar el módulo**: `checkModule` llama directamente a `scanThemes(true)` para mostrar de inmediato los temas disponibles.
+- **Selector dinámico de temas**: el escáner usa un bucle shell para recolectar todos los `.zip`, eliminar duplicados y ordenarlos antes de mostrarlos.
+- **Contador de temas y actualización automática**: la tarjeta de configuración muestra el total de temas disponibles.
+- **Renderizado limpio**: se eliminó el bloque “Gestión de Temas”; después del loader se pasa directamente a la configuración.
+
+---
+
+## [1.2.0] - 2025-09-19 
 
 ### ✨ Added
 - **Gboard Lite updated to version 16.0.2**

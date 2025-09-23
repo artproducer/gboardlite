@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gboard Theme Manager</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="scripts.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Gboard Theme Manager</h1>
+            <p>KernelSU WebUI - Módulo: gboardlite_apmods</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Estado KernelSU -->
+            <div class="section">
+                <h2 class="section-title">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                    </svg>
+                    Estado
+                </h2>
+                <div id="moduleStatus" class="module-status status-warning">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    Verificando módulo...
+                </div>
+
+                <div class="module-info">
+                    <h4>📋 Información del Módulo</h4>
+                    <p><strong>ID:</strong> gboardlite_apmods</p>
+                    <p><strong>Ruta:</strong> /data/adb/modules/gboardlite_apmods</p>
+                    <p><strong>Temas:</strong> /system/etc/gboard_theme</p>
+                    <p><strong>Config:</strong> $MODDIR/system.prop</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div id="themeCount" class="stat-number">0</div>
+                        <div class="stat-label">Temas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div id="configStatus" class="stat-number">-</div>
+                        <div class="stat-label">Config</div>
+                    </div>
+                    <div class="stat-card">
+                        <div id="rootStatus" class="stat-number">-</div>
+                        <div class="stat-label">Root</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alertas -->
+            <div id="alertSuccess" class="alert alert-success"></div>
+            <div id="alertError" class="alert alert-error"></div>
+            <div id="alertWarning" class="alert alert-warning"></div>
+
+            <!-- Loading -->
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Ejecutando comando...</p>
+            </div>
+            <!-- Configuración -->
+            <div class="section">
+                <h2 class="section-title">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                    </svg>
+                    Configurar Temas
+                </h2>
+
+                <div class="theme-grid">
+                    <div class="theme-card">
+                        <h3>
+                            <svg class="icon" viewBox="0 0 24 24" style="color: #f59e0b;">
+                                <circle cx="12" cy="12" r="5" />
+                            </svg>
+                            Tema Claro
+                        </h3>
+                        <div class="form-group">
+                            <label for="lightTheme">Tema para modo claro:</label>
+                            <select id="lightTheme">
+                                <option value="">Seleccionar...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="theme-card">
+                        <h3>
+                            <svg class="icon" viewBox="0 0 24 24" style="color: #6366f1;">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                            </svg>
+                            Tema Oscuro
+                        </h3>
+                        <div class="form-group">
+                            <label for="darkTheme">Tema para modo oscuro:</label>
+                            <select id="darkTheme">
+                                <option value="">Seleccionar...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="btn btn-success" onclick="applyThemes()">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <polyline points="20,6 9,17 4,12" />
+                        </svg>
+                        Aplicar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Configuración actual -->
+            <div class="section">
+                <h2 class="section-title">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    </svg>
+                    Configuración Actual
+                </h2>
+
+                <div id="currentConfig" class="current-config" style="display: none;">
+                    <div id="configContent"></div>
+                </div>
+            </div>
+
+            <!-- Log -->
+            <div class="section">
+                <h2 class="section-title">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    </svg>
+                    Log del Sistema
+                </h2>
+
+                <button class="btn btn-warning" onclick="clearLog()">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <polyline points="3,6 5,6 21,6" />
+                    </svg>
+                    Limpiar
+                </button>
+                <button class="btn btn-primary" onclick="copyLog()">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <rect x="9" y="9" width="11" height="11" rx="2" ry="2" />
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                    Copiar Log
+                </button>
+
+                <div id="logContainer" class="log-container">
+                    <div class="log-line log-info">[INIT] Gboard Theme Manager iniciado</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
