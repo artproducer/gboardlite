@@ -326,6 +326,6 @@ set_permissions() {
 
 	# Open Telegram and YouTube links (non-blocking)
 	nohup am start -a android.intent.action.VIEW -d "https://t.me/apmods" >/dev/null 2>&1 &
-	sleep 1.0
+	sleep 3.0
 	nohup am start -a android.intent.action.VIEW -d "https://t.me/boost/apmods" >/dev/null 2>&1 &
 }
