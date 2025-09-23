@@ -1,6 +1,6 @@
 # 📋 Changelog
 
-## [2.0.0] - 2025-09-22 🚀
+## [2.1.0] - 2025-09-22 🚀
 
 ### ✨ Added
 - **Integración de WebUI para gestión de temas**: ahora los temas se pueden escanear, listar y aplicar desde la interfaz web.
