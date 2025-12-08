@@ -1,6 +1,6 @@
-﻿#!/system/bin/sh
+#!/system/bin/sh
 # Gboard Lite post-fs-data script
-# Aplica system.prop y monta solo los recursos necesarios cuando se ejecuta bajo KernelSU
+# Applies system.prop and mounts only necessary resources when running under KernelSU
 
 MODDIR=${0%/*}
 PROPFILE="$MODDIR/system.prop"
@@ -59,26 +59,26 @@ bind_mount() {
 	elif [ -f "$src" ]; then
 		type="file"
 	else
-		log_msg "Origen inexistente, sin montar: $src"
+		log_msg "Source not found, not mounting: $src"
 		return 1
 	fi
 
 	if is_mounted "$dst"; then
-		log_msg "Destino ya montado: $dst"
+		log_msg "Destination already mounted: $dst"
 		return 0
 	fi
 
 	if ! ensure_path "$dst" "$type"; then
-		log_msg "No se pudo preparar el destino: $dst"
+		log_msg "Could not prepare destination: $dst"
 		return 1
 	fi
 
 	if mount -o bind "$src" "$dst" 2>/dev/null; then
-		log_msg "Montado bind: $src -> $dst"
+		log_msg "Bind mounted: $src -> $dst"
 		return 0
 	fi
 
-	log_msg "Fallo al montar $dst"
+	log_msg "Failed to mount $dst"
 	return 1
 }
 
@@ -87,7 +87,7 @@ set_theme_permissions() {
 		chmod 755 "$THEME_DST" 2>/dev/null
 		find "$THEME_DST" -type f -exec chmod 644 {} \; 2>/dev/null
 		find "$THEME_DST" -type d -exec chmod 755 {} \; 2>/dev/null
-		log_msg "Permisos de temas aplicados"
+		log_msg "Theme permissions applied"
 	fi
 }
 
@@ -97,42 +97,42 @@ apply_system_props() {
 	fi
 
 	if [ -d "/dev/.magisk_unblock" ]; then
-		log_msg "Magisk en modo desinstalacion, no se aplican props"
+		log_msg "Magisk in uninstall mode, not applying props"
 		return
 	fi
 
-	log_msg "Aplicando system.prop"
+	log_msg "Applying system.prop"
 	while IFS='=' read -r key value || [ -n "$key" ]; do
-		# limpiar \r y espacios invisibles
+		# Clean \r and invisible spaces
 		key=$(echo "$key" | tr -d '\r' | sed 's/^[ \t]*//;s/[ \t]*$//')
 		value=$(echo "$value" | tr -d '\r' | sed 's/^[ \t]*//;s/[ \t]*$//')
 
-		# saltar líneas vacías o comentarios
+		# Skip empty lines or comments
 		if [ -z "$key" ] || [ "${key#\#}" != "$key" ]; then
 			continue
 		fi
 
-		# intentar con resetprop -n (para ro.*)
+		# Try with resetprop -n (for ro.*)
 		if resetprop -n "$key" "$value" 2>/dev/null; then
-			log_msg "Propiedad aplicada: $key=$value (resetprop -n)"
+			log_msg "Property applied: $key=$value (resetprop -n)"
 		elif setprop "$key" "$value" 2>/dev/null; then
-			log_msg "Propiedad aplicada: $key=$value (setprop)"
+			log_msg "Property applied: $key=$value (setprop)"
 		else
-			log_msg "⚠️ Error: no se pudo aplicar $key=$value"
+			log_msg "Error: could not apply $key=$value"
 		fi
 	done <"$PROPFILE"
 }
 
 main() {
 	detect_root_impl
-	log_msg "Root manager detectado: $ROOT_IMPL"
+	log_msg "Root manager detected: $ROOT_IMPL"
 
-	# 1. Primero montar recursos
+	# 1. First mount resources
 	if [ "$ROOT_IMPL" = "ksu" ]; then
 		if [ -d "$APP_SRC_DIR" ]; then
 			bind_mount "$APP_SRC_DIR" "$APP_DST_DIR"
 		else
-			log_msg "Directorio APK no encontrado: $APP_SRC_DIR"
+			log_msg "APK directory not found: $APP_SRC_DIR"
 		fi
 
 		if [ -d "$THEME_SRC" ]; then
@@ -140,28 +140,29 @@ main() {
 				set_theme_permissions
 			fi
 		else
-			log_msg "Directorio de temas no encontrado: $THEME_SRC"
+			log_msg "Theme directory not found: $THEME_SRC"
 		fi
 	else
-		log_msg "Sin acciones de montaje adicionales para $ROOT_IMPL"
+		log_msg "No additional mount actions for $ROOT_IMPL"
 	fi
 
-	# 2. Luego aplicar system.prop (cuando la ruta ya existe)
+	# 2. Then apply system.prop (when path already exists)
 	apply_system_props
 
-	log_msg "Script post-fs-data completado"
+	log_msg "post-fs-data script completed"
 }
 
 main "$@"
+
 apply_theme() {
 	light="$1"
 	dark="$2"
 
-	# Elimina configuraciones previas
+	# Remove previous configurations
 	sed -i '/ro.com.google.ime.theme_file=/d' "$PROPFILE"
 	sed -i '/ro.com.google.ime.d_theme_file=/d' "$PROPFILE"
 
-	# Escribe nuevas
+	# Write new ones
 	echo "ro.com.google.ime.theme_file=$light" >>"$PROPFILE"
 	echo "ro.com.google.ime.d_theme_file=$dark" >>"$PROPFILE"
 }

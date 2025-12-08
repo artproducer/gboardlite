@@ -58,7 +58,7 @@ get_basepath() {
 
 # Function to print module information
 print_modname() {
-	detect_language # <-- ¡AÑADIDO!
+	detect_language
 
 	local MODNAME=$(grep_prop name $TMPDIR/module.prop)
 	local MODVER=$(grep_prop version $TMPDIR/module.prop)
@@ -68,7 +68,7 @@ print_modname() {
 	local Model=$(getprop ro.product.model)
 	local Brand=$(getprop ro.product.brand)
 
-	# Exportar como globales para ui_print_lang
+	# Export as globals for ui_print_lang
 	export MODNAME MODVER DV AndroidVersion Device Model Brand
 
 	ui_print ""
@@ -234,13 +234,13 @@ optimize_gboard() {
 
 # Main installation function
 on_install() {
-	detect_language # <-- ¡AÑADIDO! Fundamental para que LANG_ES funcione
+	detect_language
 
 	# set description
 	if [ "$LANG_ES" = true ]; then
-		sed -i 's|^description=.*|description=Instalador online de Gboard Lite optimizado para dispositivos ARMv7 y ARM64 (Android 8.1+). Ideal para ROMs personalizadas. ¡Restaura el tema dinámico en Android 12+ desde Ajustes > Temas de Gboard!|' "$MODPATH/module.prop"
+		sed -i 's|^description=.*|description=Instalador online de Gboard Lite optimizado para dispositivos ARMv7 y ARM64 (Android 8.1+). Ideal para ROMs personalizadas.|' "$MODPATH/module.prop"
 	else
-		sed -i 's|^description=.*|description=Online installer for Gboard Lite, optimized for ARMv7 and ARM64 devices (Android 8.1+). Perfect for custom ROMs. Restore dynamic theme on Android 12+ via Settings > Gboard Themes!|' "$MODPATH/module.prop"
+		sed -i 's|^description=.*|description=Online installer for Gboard Lite, optimized for ARMv7 and ARM64 devices (Android 8.1+). Perfect for custom ROMs.|' "$MODPATH/module.prop"
 	fi
 	# Check API level
 	if [ -n "$MINAPI" ] && [ "$API" -lt "$MINAPI" ]; then

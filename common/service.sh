@@ -11,6 +11,7 @@ LANG_ES=false
 # Base descriptions in both languages
 DESC_BASE_ES="Instalador online de Gboard Lite optimizado para dispositivos ARMv7 y ARM64 (Android 8.1+). Ideal para ROMs personalizadas."
 DESC_BASE_EN="Online installer of Gboard Lite optimized for ARMv7 and ARM64 devices (Android 8.1+). Ideal for custom ROMs."
+
 # Function to detect system language
 detect_language() {
 	local system_lang=$(getprop persist.sys.locale)
@@ -34,23 +35,23 @@ get_status_message() {
 	case "$key" in
 	"working")
 		if [ "$LANG_ES" = true ]; then
-			echo "[ ✅ El módulo está funcionando ]"
+			echo "[ OK El modulo esta funcionando ]"
 		else
-			echo "[ ✅ Module is working ]"
+			echo "[ OK Module is working ]"
 		fi
 		;;
 	"manual_install")
 		if [ "$LANG_ES" = true ]; then
-			echo "[ 🙁 Módulo instalado pero necesitas instalar Gboard Lite manualmente ]"
+			echo "[ ! Modulo instalado pero necesitas instalar Gboard Lite manualmente ]"
 		else
-			echo "[ 🙁 Module installed but you need to install Gboard Lite manually ]"
+			echo "[ ! Module installed but you need to install Gboard Lite manually ]"
 		fi
 		;;
 	"error")
 		if [ "$LANG_ES" = true ]; then
-			echo "[ ❌ Error del módulo - revisar logs ]"
+			echo "[ X Error del modulo - revisar logs ]"
 		else
-			echo "[ ❌ Module error - check logs ]"
+			echo "[ X Module error - check logs ]"
 		fi
 		;;
 	esac
@@ -59,11 +60,7 @@ get_status_message() {
 # Function to log messages
 log_msg() {
 	local msg="$1"
-	if [ "$LANG_ES" = true ]; then
-		echo "[$MODID] $msg" >>/cache/magisk.log 2>/dev/null
-	else
-		echo "[$MODID] $msg" >>/cache/magisk.log 2>/dev/null
-	fi
+	echo "[$MODID] $msg" >>/cache/magisk.log 2>/dev/null
 }
 
 # Function to log localized messages
@@ -79,7 +76,7 @@ log_msg_lang() {
 		;;
 	"system_ready")
 		if [ "$LANG_ES" = true ]; then
-			log_msg "Sistema listo después de $1 reintentos"
+			log_msg "Sistema listo despues de $1 reintentos"
 		else
 			log_msg "System ready after $1 retries"
 		fi
@@ -100,14 +97,14 @@ log_msg_lang() {
 		;;
 	"verification_success")
 		if [ "$LANG_ES" = true ]; then
-			log_msg "Verificación del módulo exitosa"
+			log_msg "Verificacion del modulo exitosa"
 		else
 			log_msg "Module verification successful"
 		fi
 		;;
 	"gboard_not_found")
 		if [ "$LANG_ES" = true ]; then
-			log_msg "Gboard no encontrado - instalación manual requerida"
+			log_msg "Gboard no encontrado - instalacion manual requerida"
 		else
 			log_msg "Gboard not found - manual installation required"
 		fi
@@ -149,7 +146,7 @@ log_msg_lang() {
 		;;
 	"description_updated")
 		if [ "$LANG_ES" = true ]; then
-			log_msg "Descripción actualizada: $1"
+			log_msg "Descripcion actualizada: $1"
 		else
 			log_msg "Updated description: $1"
 		fi
@@ -168,7 +165,7 @@ log_msg_lang() {
 update_description() {
 	local new_desc="$1"
 	if [ -f "$PROPFILE" ]; then
-		# Reemplazar siempre toda la línea description=
+		# Replace entire description= line
 		sed -i "s/^description=.*/description=$new_desc/" "$PROPFILE"
 		log_msg_lang "description_updated" "$new_desc"
 	else
@@ -205,30 +202,27 @@ is_gboard_installed() {
 	fi
 }
 
-# Iniciar servidor web con busybox httpd
+# Start web server with busybox httpd
 start_webui_server() {
 	WEBROOT="$MODDIR/webroot"
 	PORT=8080
 
-	# Crear directorio cgi-bin si no existe
+	# Create cgi-bin directory if it doesn't exist
 	mkdir -p "$WEBROOT/cgi-bin"
 
-	# Dar permisos de ejecución a scripts CGI
+	# Give execute permissions to CGI scripts
 	chmod +x "$WEBROOT"/cgi-bin/*.sh 2>/dev/null
 
-	# Matar instancias previas del servidor
+	# Kill previous server instances
 	pkill -f "busybox httpd -p $PORT" 2>/dev/null
 
-	# Levantar servidor httpd en segundo plano
+	# Start httpd server in background
 	/system/bin/busybox httpd -f -p $PORT -h "$WEBROOT" &
 
-	log_msg "[HTTPD] Servidor web iniciado en http://127.0.0.1:$PORT"
+	log_msg "[HTTPD] Web server started at http://127.0.0.1:$PORT"
 }
 
-# Escanea temas en $MODDIR/system/etc/gboard_theme y genera lista JSON con nombres
-# Uso: scan_themes
-# Escanea solo los archivos .zip en $MODDIR/system/etc/gboard_theme
-# y genera un JSON con los nombres
+# Scan themes in $MODDIR/system/etc/gboard_theme and generate JSON list with names
 scan_themes() {
 	THEME_SRC="$MODDIR/system/etc/gboard_theme"
 	WEBROOT="$MODDIR/webroot"
@@ -236,12 +230,12 @@ scan_themes() {
 	TMP_JSON="$WEBROOT/.themes.tmp"
 
 	if command -v ui_print >/dev/null 2>&1; then
-		ui_print "- Escaneando temas .zip en $THEME_SRC..."
+		ui_print "- Scanning .zip themes in $THEME_SRC..."
 	else
-		echo "[scan_themes] Escaneando temas .zip en $THEME_SRC..."
+		echo "[scan_themes] Scanning .zip themes in $THEME_SRC..."
 	fi
 
-	# verificar que exista la carpeta
+	# Check if folder exists
 	if [ ! -d "$THEME_SRC" ]; then
 		mkdir -p "$WEBROOT"
 		echo "[]" >"$JSON_OUT"
@@ -271,13 +265,13 @@ scan_themes() {
 	mv "$TMP_JSON" "$JSON_OUT"
 
 	if command -v ui_print >/dev/null 2>&1; then
-		ui_print "- Lista de temas guardada en $JSON_OUT"
+		ui_print "- Theme list saved to $JSON_OUT"
 	else
-		echo "[scan_themes] Lista de temas guardada en $JSON_OUT"
+		echo "[scan_themes] Theme list saved to $JSON_OUT"
 	fi
 }
 
-# Llamar al servidor después de completar verificación
+# Call server after completing verification
 main() {
 	detect_language
 	log_msg_lang "service_started"

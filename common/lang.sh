@@ -12,8 +12,8 @@ ui_print_lang() {
 		;;
 	"module_info")
 		if [ "$LANG_ES" = true ]; then
-			ui_print "- Módulo: $MODNAME"
-			ui_print "- Versión: $MODVER"
+			ui_print "- Modulo: $MODNAME"
+			ui_print "- Version: $MODVER"
 			ui_print "- Autor: $DV"
 			ui_print "- Android: $AndroidVersion"
 			ui_print "- Dispositivo: $Brand $Model ($Device)"
@@ -44,8 +44,8 @@ ui_print_lang() {
 	"multiple_root_error")
 		ui_print "*********************************************************"
 		if [ "$LANG_ES" = true ]; then
-			ui_print "! ¡Las implementaciones de múltiples root NO son compatibles!"
-			ui_print "! Por favor desinstala Magisk antes de instalar este módulo"
+			ui_print "! Las implementaciones de multiples root NO son compatibles!"
+			ui_print "! Por favor desinstala Magisk antes de instalar este modulo"
 		else
 			ui_print "! Multiple root implementations are NOT supported!"
 			ui_print "! Please uninstall Magisk before installing this module"
@@ -63,7 +63,7 @@ ui_print_lang() {
 		;;
 	"api_error")
 		if [ "$LANG_ES" = true ]; then
-			abort "- ¡Tu API del sistema ($API) es menor que el API mínimo requerido ($MINAPI)! ¡Abortando!"
+			abort "- Tu API del sistema ($API) es menor que el API minimo requerido ($MINAPI)! Abortando!"
 		else
 			abort "- Your system API ($API) is lower than minimum required API ($MINAPI)! Aborting!"
 		fi
@@ -91,7 +91,7 @@ ui_print_lang() {
 		;;
 	"curl_not_found")
 		if [ "$LANG_ES" = true ]; then
-			ui_print "! Binario curl no encontrado después de la extracción"
+			ui_print "! Binario curl no encontrado despues de la extraccion"
 		else
 			ui_print "! curl binary not found after extraction"
 		fi
@@ -112,14 +112,14 @@ ui_print_lang() {
 		;;
 	"current_gboard_version")
 		if [ "$LANG_ES" = true ]; then
-			ui_print "- Versión actual de Gboard: $VERSION"
+			ui_print "- Version actual de Gboard: $VERSION"
 		else
 			ui_print "- Current Gboard version: $VERSION"
 		fi
 		;;
 	"checking_latest_version")
 		if [ "$LANG_ES" = true ]; then
-			ui_print "- Verificando la última versión de Gboard Lite..."
+			ui_print "- Verificando la ultima version de Gboard Lite..."
 		else
 			ui_print "- Checking for latest Gboard Lite version..."
 		fi
@@ -133,14 +133,14 @@ ui_print_lang() {
 		;;
 	"download_failed")
 		if [ "$LANG_ES" = true ]; then
-			ui_print "! Descarga falló - verifica tu conexión a internet"
+			ui_print "! Descarga fallo - verifica tu conexion a internet"
 		else
 			ui_print "! Download failed - check your internet connection"
 		fi
 		;;
 	"download_invalid")
 		if [ "$LANG_ES" = true ]; then
-			ui_print "! El archivo descargado es inválido o está vacío"
+			ui_print "! El archivo descargado es invalido o esta vacio"
 		else
 			ui_print "! Downloaded file is invalid or empty"
 		fi
@@ -154,14 +154,14 @@ ui_print_lang() {
 		;;
 	"gboard_not_installed")
 		if [ "$LANG_ES" = true ]; then
-			ui_print "- Gboard no está instalado"
+			ui_print "- Gboard no esta instalado"
 		else
 			ui_print "- Gboard is not installed"
 		fi
 		;;
 	"found_existing_gboard")
 		if [ "$LANG_ES" = true ]; then
-			ui_print "- Encontrada instalación existente de Gboard"
+			ui_print "- Encontrada instalacion existente de Gboard"
 		else
 			ui_print "- Found existing Gboard installation"
 		fi
@@ -175,7 +175,7 @@ ui_print_lang() {
 		;;
 	"gboard_up_to_date")
 		if [ "$LANG_ES" = true ]; then
-			ui_print "- ¡Gboard $VERSION ya está actualizado!"
+			ui_print "- Gboard $VERSION ya esta actualizado!"
 		else
 			ui_print "- Gboard $VERSION is already up to date!"
 		fi
@@ -189,28 +189,28 @@ ui_print_lang() {
 		;;
 	"apk_install_failed")
 		if [ "$LANG_ES" = true ]; then
-			ui_print "! Falló la instalación del APK"
+			ui_print "! Fallo la instalacion del APK"
 		else
 			ui_print "! APK installation failed"
 		fi
 		;;
 	"gboard_installed_success")
 		if [ "$LANG_ES" = true ]; then
-			ui_print "- ¡Gboard Lite $VERSION instalado exitosamente!"
+			ui_print "- Gboard Lite $VERSION instalado exitosamente!"
 		else
 			ui_print "- Gboard Lite $VERSION installed successfully!"
 		fi
 		;;
 	"setting_system_app")
 		if [ "$LANG_ES" = true ]; then
-			ui_print "- Configurando Gboard Lite como aplicación del sistema..."
+			ui_print "- Configurando Gboard Lite como aplicacion del sistema..."
 		else
 			ui_print "- Setting Gboard Lite as system app..."
 		fi
 		;;
 	"gboard_is_system_app")
 		if [ "$LANG_ES" = true ]; then
-			ui_print "- Gboard Lite es ahora una aplicación del sistema"
+			ui_print "- Gboard Lite es ahora una aplicacion del sistema"
 		else
 			ui_print "- Gboard Lite is now a system app"
 		fi
@@ -224,7 +224,7 @@ ui_print_lang() {
 		;;
 	"installation_complete")
 		if [ "$LANG_ES" = true ]; then
-			ui_print "- ¡Instalación completada exitosamente!"
+			ui_print "- Instalacion completada exitosamente!"
 		else
 			ui_print "- Installation completed successfully!"
 		fi
@@ -247,7 +247,7 @@ ui_print_lang() {
 		;;
 	"installation_failed")
 		if [ "$LANG_ES" = true ]; then
-			abort "Instalación falló"
+			abort "Instalacion fallo"
 		else
 			abort "Installation failed"
 		fi
