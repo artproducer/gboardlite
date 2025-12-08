@@ -1,8 +1,18 @@
 # 📋 Changelog
 
+## [2.2.0] - 2025-12-08 🚀
+
+### ✨ Added
+
+- **English language support (WebUI)** - The web interface now supports both English and Spanish with a toggle switch
+- **APK updated to version 16.4.3** - Latest Gboard Lite with performance improvements
+
+---
+
 ## [2.1.0] - 2025-09-22 🚀
 
 ### ✨ Added
+
 - **Integración de WebUI para gestión de temas**: ahora los temas se pueden escanear, listar y aplicar desde la interfaz web.
 - **Escaneo automático de temas al verificar el módulo**: `checkModule` llama directamente a `scanThemes(true)` para mostrar de inmediato los temas disponibles.
 - **Selector dinámico de temas**: el escáner usa un bucle shell para recolectar todos los `.zip`, eliminar duplicados y ordenarlos antes de mostrarlos.
@@ -11,33 +21,38 @@
 
 ---
 
-## [1.2.0] - 2025-09-19 
+## [1.2.0] - 2025-09-19
 
 ### ✨ Added
+
 - **Gboard Lite updated to version 16.0.2**
 - **Added customs themes**
 
-## [1.1.0] - 2025-09-19 
+## [1.1.0] - 2025-09-19
 
 ### ✨ Added
+
 - **Multi-language installation support** - Scripts now detect system language and display messages in: English, Spanish.
 - **Language fallback system** - Defaults to English if system language is not supported.
 - **Localized error messages** - Common installation errors now appear in the user’s preferred language.
 - **Translation-ready architecture** - Easy to add new languages via simple JSON or properties files.
 
 ### 🔧 Changed
+
 - Minor optimizations to language detection logic for faster startup.
 - Updated logging to include language context for easier debugging.
 
 ### 🐛 Fixed
+
 - Minor UI inconsistencies in non-English installations.
 - Fixed encoding issues in Cyrillic and accented Latin characters.
 
 ---
 
-## [1.0.0] - 2024-09-18 
+## [1.0.0] - 2024-09-18
 
 ### ✨ Added
+
 - **Gboard Lite APK v15.9.4** - Latest optimized version with improved performance
 - **Complete script rewrite** - Enhanced installation system with better reliability
 - **Comprehensive logging system** - Detailed logs for troubleshooting and debugging
@@ -52,6 +67,7 @@
 - **Telegram integration** - Direct links to support channels and community
 
 ### 🔧 Changed
+
 - **Installation flow completely redesigned** - More robust and user-friendly process
 - **Error messages improved** - Clearer descriptions for better troubleshooting
 - **Permission handling enhanced** - Better security with proper SELinux contexts
@@ -60,6 +76,7 @@
 - **Binary management** - Included curl and cmpr binaries for better reliability
 
 ### 🐛 Fixed
+
 - **Download timeout issues** - Better handling of slow network connections
 - **Permission errors** - Proper file ownership and permissions assignment
 - **Mount point conflicts** - Safer handling of existing Gboard installations
@@ -68,6 +85,7 @@
 - **Service script reliability** - Improved boot-time module verification
 
 ### 🗑️ Removed
+
 - **Beta limitations** - Removed experimental restrictions and warnings
 - **Debug code** - Cleaned up development-only functions
 - **Redundant checks** - Streamlined validation process
@@ -77,6 +95,7 @@
 ## [0.7.0-beta] - 2024-08-25
 
 ### ✨ Added
+
 - **Beta release** - Initial public testing version
 - **Basic installation system** - Core module functionality
 - **Gboard Lite APK v15.8.1** - First optimized keyboard version
@@ -85,10 +104,12 @@
 - **Basic error handling** - Simple installation validation
 
 ### 🔧 Changed
+
 - **Installation method** - Direct APK installation approach
 - **Module structure** - Standard Magisk module format
 
 ### ⚠️ Known Issues
+
 - Limited error handling in edge cases
 - Manual configuration required after installation
 - Basic logging system
@@ -98,15 +119,18 @@
 ## [0.6.0-beta] - 2024-08-10
 
 ### ✨ Added
+
 - **Initial module structure** - Basic Magisk module framework
 - **APK integration system** - Core installation mechanism
 - **Gboard Lite APK v15.7.0** - Early optimized version
 
 ### 🔧 Changed
+
 - **Development approach** - Switched to modular design
 - **Installation scripts** - Basic automation implemented
 
 ### ⚠️ Known Issues
+
 - Installation not fully automated
 - Limited device compatibility testing
 - Requires manual post-install configuration
@@ -116,11 +140,13 @@
 ## [0.5.0-alpha] - 2024-07-28
 
 ### ✨ Added
+
 - **Proof of concept** - Initial working prototype
 - **Manual installation process** - Basic APK replacement method
 - **Gboard Lite APK v15.6.0** - First lite version
 
 ### ⚠️ Known Issues
+
 - Fully manual process required
 - No automation or error handling
 - Limited to specific device configurations
@@ -131,6 +157,8 @@
 
 | Version    | Release Date | Type   | Key Milestone              |
 |------------|--------------|--------|----------------------------|
+| 2.2.0      | 2025-12-08   | Stable | English WebUI + APK 16.4.3 |
+| 2.1.0      | 2025-09-22   | Stable | WebUI theme management     |
 | 1.1.0      | 2025-09-19   | Stable | Multi-language support     |
 | 1.0.0      | 2024-09-18   | Stable | First stable release       |
 | 0.7.0-beta | 2024-08-25   | Beta   | Public testing             |
@@ -142,6 +170,7 @@
 ## 🎯 Roadmap
 
 ### Version 1.2.0 (Planned)
+
 - [ ] Charging XD
 
 ---
@@ -158,6 +187,7 @@
 ## 📝 Migration Notes
 
 ### From Stable 1.0 to 1.1
+
 - **Automatic migration** - No manual steps required
 - **Settings preserved** - All your configurations remain intact
 - **New feature** - Enjoy installation messages in your system language!
