@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
             padding: 10px;
         }
@@ -22,28 +22,87 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1);
             overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
         .header {
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
             color: white;
             padding: 20px;
             text-align: center;
+            position: relative;
         }
 
         .header h1 {
             font-size: 2rem;
             margin-bottom: 5px;
             font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .header p {
             opacity: 0.9;
             font-size: 1rem;
+        }
+
+        /* Language Toggle */
+        .lang-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-toggle span {
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-toggle span.active {
+            color: #fff;
+        }
+
+        .lang-toggle span:not(.active) {
+            opacity: 0.6;
+        }
+
+        .lang-switch {
+            width: 40px;
+            height: 22px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 11px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-switch::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .lang-switch.en::after {
+            left: 20px;
         }
 
         .main-content {
@@ -53,14 +112,15 @@
         .section {
             margin-bottom: 25px;
             background: white;
-            border-radius: 15px;
+            border-radius: 16px;
             padding: 20px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.1);
         }
 
         .section-title {
             font-size: 1.3rem;
-            color: #4CAF50;
+            color: #6366f1;
             margin-bottom: 15px;
             font-weight: 600;
             display: flex;
@@ -70,7 +130,7 @@
 
         .module-status {
             padding: 12px 15px;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 15px;
             font-weight: 500;
             display: flex;
@@ -80,29 +140,29 @@
         }
 
         .status-active {
-            background: #dcfce7;
+            background: linear-gradient(135deg, #dcfce7 0%, #d1fae5 100%);
             color: #166534;
-            border: 1px solid #bbf7d0;
+            border: 1px solid #86efac;
         }
 
         .status-inactive {
-            background: #fef2f2;
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
             color: #991b1b;
-            border: 1px solid #fecaca;
+            border: 1px solid #fca5a5;
         }
 
         .status-warning {
-            background: #fef3c7;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
             color: #92400e;
-            border: 1px solid #fde68a;
+            border: 1px solid #fcd34d;
         }
 
         .btn {
             padding: 10px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             display: inline-flex;
@@ -113,12 +173,12 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
         }
 
         .btn-success {
-            background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
         }
 
@@ -128,13 +188,13 @@
         }
 
         .btn-danger {
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
         }
 
         .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
         }
 
         .theme-grid {
@@ -145,17 +205,17 @@
         }
 
         .theme-card {
-            background: #f8fafc;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             border: 2px solid #e2e8f0;
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 15px;
             transition: all 0.3s ease;
         }
 
         .theme-card:hover {
-            border-color: #4CAF50;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: #8b5cf6;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(139, 92, 246, 0.15);
         }
 
         .theme-card h3 {
@@ -172,14 +232,14 @@
             overflow-y: auto;
             background: white;
             border: 1px solid #e5e7eb;
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 10px;
             margin-bottom: 12px;
         }
 
         .theme-item {
             padding: 8px 12px;
-            border-radius: 6px;
+            border-radius: 8px;
             margin-bottom: 5px;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -191,14 +251,14 @@
         }
 
         .theme-item:hover {
-            background: #f3f4f6;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
             border-color: #d1d5db;
         }
 
         .theme-item.selected {
-            background: #4CAF50;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
-            border-color: #45a049;
+            border-color: transparent;
         }
 
         .theme-item-name {
@@ -228,7 +288,7 @@
             width: 100%;
             padding: 10px 12px;
             border: 2px solid #e5e7eb;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 14px;
             transition: all 0.3s ease;
             background: white;
@@ -236,41 +296,41 @@
 
         .form-group select:focus {
             outline: none;
-            border-color: #4CAF50;
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
         }
 
         .current-config {
-            background: #f0f9ff;
-            border: 1px solid #0ea5e9;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+            border: 1px solid #a78bfa;
+            border-radius: 12px;
             padding: 15px;
             margin-top: 15px;
         }
 
         .config-line {
             font-family: 'Courier New', monospace;
-            background: #1e293b;
-            color: #f1f5f9;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            color: #e0e7ff;
             padding: 8px 12px;
-            border-radius: 6px;
+            border-radius: 8px;
             margin: 8px 0;
             word-break: break-all;
             font-size: 12px;
-            border-left: 3px solid #4CAF50;
+            border-left: 3px solid #8b5cf6;
         }
 
         .log-container {
-            background: #0f172a;
-            color: #00ff00;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: #4ade80;
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 12px;
             height: 200px;
             overflow-y: auto;
             font-family: 'Courier New', monospace;
             font-size: 11px;
             line-height: 1.4;
-            border: 2px solid #1e293b;
+            border: 2px solid #312e81;
         }
 
         .log-line {
@@ -279,7 +339,7 @@
         }
 
         .log-info {
-            color: #00ff00;
+            color: #4ade80;
         }
 
         .log-warning {
@@ -287,11 +347,11 @@
         }
 
         .log-error {
-            color: #ef4444;
+            color: #f87171;
         }
 
         .log-success {
-            color: #10b981;
+            color: #34d399;
         }
 
         .loading {
@@ -299,13 +359,13 @@
             text-align: center;
             padding: 20px;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
+            border-radius: 14px;
             margin: 15px 0;
         }
 
         .spinner {
-            border: 3px solid #f3f4f6;
-            border-top: 3px solid #4CAF50;
+            border: 3px solid #e5e7eb;
+            border-top: 3px solid #8b5cf6;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -325,7 +385,7 @@
 
         .alert {
             padding: 12px 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-bottom: 15px;
             display: none;
             font-weight: 500;
@@ -333,21 +393,21 @@
         }
 
         .alert-success {
-            background: #dcfce7;
+            background: linear-gradient(135deg, #dcfce7 0%, #d1fae5 100%);
             color: #166534;
-            border: 1px solid #bbf7d0;
+            border: 1px solid #86efac;
         }
 
         .alert-error {
-            background: #fef2f2;
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
             color: #991b1b;
-            border: 1px solid #fecaca;
+            border: 1px solid #fca5a5;
         }
 
         .alert-warning {
-            background: #fef3c7;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
             color: #92400e;
-            border: 1px solid #fde68a;
+            border: 1px solid #fcd34d;
         }
 
         .icon {
@@ -357,10 +417,10 @@
         }
 
         .module-info {
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
             color: white;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-bottom: 15px;
         }
 
@@ -383,23 +443,27 @@
         }
 
         .stat-card {
-            background: white;
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 12px;
             text-align: center;
-            border: 2px solid #f1f5f9;
+            border: 2px solid #e9d5ff;
             transition: all 0.3s ease;
         }
 
         .stat-card:hover {
-            border-color: #4CAF50;
-            transform: translateY(-1px);
+            border-color: #a855f7;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(168, 85, 247, 0.15);
         }
 
         .stat-number {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #4CAF50;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 3px;
         }
 
@@ -409,10 +473,10 @@
         }
 
         .ksu-status {
-            background: #1e293b;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
             color: white;
             padding: 10px 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-bottom: 15px;
             font-family: monospace;
             font-size: 12px;
@@ -421,7 +485,7 @@
         @media (max-width: 768px) {
             .container {
                 margin: 5px;
-                border-radius: 12px;
+                border-radius: 16px;
             }
 
             .main-content {
@@ -435,6 +499,16 @@
             .stats-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
+
+            .lang-toggle {
+                position: static;
+                margin-top: 10px;
+                justify-content: center;
+            }
+
+            .header {
+                padding-bottom: 15px;
+            }
         }
     </style>
 </head>
@@ -442,8 +516,13 @@
 <body>
     <div class="container">
         <div class="header">
+            <div class="lang-toggle">
+                <span id="langEs">ES</span>
+                <div id="langSwitch" class="lang-switch en" onclick="toggleLanguage()"></div>
+                <span id="langEn" class="active">EN</span>
+            </div>
             <h1>🎨 Gboard Theme Manager</h1>
-            <p>KernelSU WebUI - Módulo: gboardlite_apmods</p>
+            <p data-i18n="headerSubtitle">KernelSU WebUI - Module: gboardlite_apmods</p>
         </div>
 
         <div class="main-content">
@@ -453,7 +532,7 @@
                     <svg class="icon" viewBox="0 0 24 24">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                     </svg>
-                    Estado
+                    <span data-i18n="statusTitle">Status</span>
                 </h2>
                 <div id="moduleStatus" class="module-status status-warning">
                     <svg class="icon" viewBox="0 0 24 24">
@@ -461,21 +540,21 @@
                         <line x1="12" y1="8" x2="12" y2="12" />
                         <line x1="12" y1="16" x2="12.01" y2="16" />
                     </svg>
-                    Verificando módulo...
+                    <span data-i18n="verifyingModule">Verifying module...</span>
                 </div>
 
                 <div class="module-info">
-                    <h4>📋 Información del Módulo</h4>
+                    <h4 data-i18n="moduleInfo">📋 Module Information</h4>
                     <p><strong>ID:</strong> gboardlite_apmods</p>
-                    <p><strong>Ruta:</strong> /data/adb/modules/gboardlite_apmods</p>
-                    <p><strong>Temas:</strong> /system/etc/gboard_theme</p>
+                    <p><strong data-i18n="pathLabel">Path:</strong> /data/adb/modules/gboardlite_apmods</p>
+                    <p><strong data-i18n="themesLabel">Themes:</strong> /system/etc/gboard_theme</p>
                     <p><strong>Config:</strong> $MODDIR/system.prop</p>
                 </div>
 
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div id="themeCount" class="stat-number">0</div>
-                        <div class="stat-label">Temas</div>
+                        <div class="stat-label" data-i18n="themesLabel">Themes</div>
                     </div>
                     <div class="stat-card">
                         <div id="configStatus" class="stat-number">-</div>
@@ -496,7 +575,7 @@
             <!-- Loading -->
             <div id="loading" class="loading">
                 <div class="spinner"></div>
-                <p>Ejecutando comando...</p>
+                <p data-i18n="executingCommand">Executing command...</p>
             </div>
             <!-- Configuración -->
             <div class="section">
@@ -505,7 +584,7 @@
                         <path
                             d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                     </svg>
-                    Configurar Temas
+                    <span data-i18n="configureThemes">Configure Themes</span>
                 </h2>
 
                 <div class="theme-grid">
@@ -514,12 +593,12 @@
                             <svg class="icon" viewBox="0 0 24 24" style="color: #f59e0b;">
                                 <circle cx="12" cy="12" r="5" />
                             </svg>
-                            Tema Claro
+                            <span data-i18n="lightTheme">Light Theme</span>
                         </h3>
                         <div class="form-group">
-                            <label for="lightTheme">Tema para modo claro:</label>
+                            <label for="lightTheme" data-i18n="lightThemeLabel">Theme for light mode:</label>
                             <select id="lightTheme">
-                                <option value="">Seleccionar...</option>
+                                <option value="" data-i18n="selectOption">Select...</option>
                             </select>
                         </div>
                     </div>
@@ -529,12 +608,12 @@
                             <svg class="icon" viewBox="0 0 24 24" style="color: #6366f1;">
                                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                             </svg>
-                            Tema Oscuro
+                            <span data-i18n="darkTheme">Dark Theme</span>
                         </h3>
                         <div class="form-group">
-                            <label for="darkTheme">Tema para modo oscuro:</label>
+                            <label for="darkTheme" data-i18n="darkThemeLabel">Theme for dark mode:</label>
                             <select id="darkTheme">
-                                <option value="">Seleccionar...</option>
+                                <option value="" data-i18n="selectOption">Select...</option>
                             </select>
                         </div>
                     </div>
@@ -545,7 +624,7 @@
                         <svg class="icon" viewBox="0 0 24 24">
                             <polyline points="20,6 9,17 4,12" />
                         </svg>
-                        Aplicar
+                        <span data-i18n="applyBtn">Apply</span>
                     </button>
                 </div>
             </div>
@@ -556,7 +635,7 @@
                     <svg class="icon" viewBox="0 0 24 24">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                     </svg>
-                    Configuración Actual
+                    <span data-i18n="currentConfig">Current Configuration</span>
                 </h2>
 
                 <div id="currentConfig" class="current-config" style="display: none;">
@@ -570,32 +649,219 @@
                     <svg class="icon" viewBox="0 0 24 24">
                         <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                     </svg>
-                    Log del Sistema
+                    <span data-i18n="systemLog">System Log</span>
                 </h2>
 
                 <button class="btn btn-warning" onclick="clearLog()">
                     <svg class="icon" viewBox="0 0 24 24">
                         <polyline points="3,6 5,6 21,6" />
                     </svg>
-                    Limpiar
+                    <span data-i18n="clearBtn">Clear</span>
                 </button>
                 <button class="btn btn-primary" onclick="copyLog()">
                     <svg class="icon" viewBox="0 0 24 24">
                         <rect x="9" y="9" width="11" height="11" rx="2" ry="2" />
                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                     </svg>
-                    Copiar Log
+                    <span data-i18n="copyLogBtn">Copy Log</span>
                 </button>
 
                 <div id="logContainer" class="log-container">
-                    <div class="log-line log-info">[INIT] Gboard Theme Manager iniciado</div>
+                    <div class="log-line log-info" data-i18n="initMessage">[INIT] Gboard Theme Manager started</div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Variables globales
+        // ===========================================
+        // Internationalization (i18n) System
+        // ===========================================
+        const translations = {
+            es: {
+                headerSubtitle: 'KernelSU WebUI - Módulo: gboardlite_apmods',
+                statusTitle: 'Estado',
+                verifyingModule: 'Verificando módulo...',
+                moduleInfo: '📋 Información del Módulo',
+                pathLabel: 'Ruta:',
+                themesLabel: 'Temas',
+                executingCommand: 'Ejecutando comando...',
+                configureThemes: 'Configurar Temas',
+                lightTheme: 'Tema Claro',
+                darkTheme: 'Tema Oscuro',
+                lightThemeLabel: 'Tema para modo claro:',
+                darkThemeLabel: 'Tema para modo oscuro:',
+                selectOption: 'Seleccionar...',
+                applyBtn: 'Aplicar',
+                currentConfig: 'Configuración Actual',
+                systemLog: 'Log del Sistema',
+                clearBtn: 'Limpiar',
+                copyLogBtn: 'Copiar Log',
+                initMessage: '[INIT] Gboard Theme Manager iniciado',
+                moduleFound: 'Módulo encontrado y activo',
+                moduleNotFound: 'Módulo no encontrado',
+                verificationError: 'Error de verificación',
+                configEmpty: 'Archivo de configuración vacío',
+                configLoaded: 'Configuración cargada',
+                readConfigError: 'Error al leer la configuración',
+                verifyModuleFirst: 'Debe verificar el módulo primero',
+                selectBothThemes: 'Debe seleccionar ambos temas',
+                applyingConfig: 'Aplicando configuración...',
+                applyingLightTheme: 'Aplicando tema claro:',
+                applyingDarkTheme: 'Aplicando tema oscuro:',
+                themesApplied: '¡Temas aplicados! Reinicia para ver los cambios.',
+                configSaved: 'Configuración guardada exitosamente',
+                restartRequired: 'REINICIO REQUERIDO para aplicar cambios',
+                applyError: 'Error al aplicar temas',
+                logCleared: 'Log limpiado',
+                logCopied: 'Log copiado al portapapeles',
+                nothingToCopy: 'No hay contenido para copiar',
+                copyError: 'No se pudo copiar el log',
+                detectingKSU: '🔍 Detectando entorno KernelSU...',
+                noRootDetected: '⚠️ No se detectó acceso root',
+                verifyRootPerms: 'No se detectó acceso root. Verifique permisos.',
+                systemInitialized: 'Sistema inicializado correctamente',
+                limitedMode: 'Sistema en modo limitado - Verifique permisos root y KSU',
+                initError: 'Error al inicializar el sistema',
+                loadingThemes: '📂 Cargando lista de temas desde themes.json (fetch)...',
+                themesFound: '🎨 Temas encontrados',
+                noThemesFound: '⚠️ No se encontraron temas en themes.json',
+                loadThemesError: 'Error cargando lista de temas',
+                configNotFound: 'Archivo system.prop no encontrado',
+                selectorsUpdated: 'Selectores actualizados con',
+                options: 'opciones',
+                currentLightTheme: 'Tema claro actual:',
+                currentDarkTheme: 'Tema oscuro actual:',
+                notConfigured: 'No configurado',
+                themeConfig: '🔧 Configuración de Temas:',
+                otherProps: '⚙️ Otras propiedades',
+                noThemesAvailable: 'No hay temas disponibles',
+                placeZipFiles: 'Coloque archivos .zip en:',
+                themeSelected: 'Tema seleccionado:',
+                verificationNewConfig: 'Verificación - Nueva configuración'
+            },
+            en: {
+                headerSubtitle: 'KernelSU WebUI - Module: gboardlite_apmods',
+                statusTitle: 'Status',
+                verifyingModule: 'Verifying module...',
+                moduleInfo: '📋 Module Information',
+                pathLabel: 'Path:',
+                themesLabel: 'Themes',
+                executingCommand: 'Executing command...',
+                configureThemes: 'Configure Themes',
+                lightTheme: 'Light Theme',
+                darkTheme: 'Dark Theme',
+                lightThemeLabel: 'Theme for light mode:',
+                darkThemeLabel: 'Theme for dark mode:',
+                selectOption: 'Select...',
+                applyBtn: 'Apply',
+                currentConfig: 'Current Configuration',
+                systemLog: 'System Log',
+                clearBtn: 'Clear',
+                copyLogBtn: 'Copy Log',
+                initMessage: '[INIT] Gboard Theme Manager started',
+                moduleFound: 'Module found and active',
+                moduleNotFound: 'Module not found',
+                verificationError: 'Verification error',
+                configEmpty: 'Configuration file is empty',
+                configLoaded: 'Configuration loaded',
+                readConfigError: 'Error reading configuration',
+                verifyModuleFirst: 'You must verify the module first',
+                selectBothThemes: 'You must select both themes',
+                applyingConfig: 'Applying configuration...',
+                applyingLightTheme: 'Applying light theme:',
+                applyingDarkTheme: 'Applying dark theme:',
+                themesApplied: 'Themes applied! Restart to see changes.',
+                configSaved: 'Configuration saved successfully',
+                restartRequired: 'RESTART REQUIRED to apply changes',
+                applyError: 'Error applying themes',
+                logCleared: 'Log cleared',
+                logCopied: 'Log copied to clipboard',
+                nothingToCopy: 'Nothing to copy',
+                copyError: 'Could not copy log',
+                detectingKSU: '🔍 Detecting KernelSU environment...',
+                noRootDetected: '⚠️ Root access not detected',
+                verifyRootPerms: 'Root access not detected. Check permissions.',
+                systemInitialized: 'System initialized successfully',
+                limitedMode: 'System in limited mode - Check root and KSU permissions',
+                initError: 'Error initializing system',
+                loadingThemes: '📂 Loading theme list from themes.json (fetch)...',
+                themesFound: '🎨 Themes found',
+                noThemesFound: '⚠️ No themes found in themes.json',
+                loadThemesError: 'Error loading theme list',
+                configNotFound: 'system.prop file not found',
+                selectorsUpdated: 'Selectors updated with',
+                options: 'options',
+                currentLightTheme: 'Current light theme:',
+                currentDarkTheme: 'Current dark theme:',
+                notConfigured: 'Not configured',
+                themeConfig: '🔧 Theme Configuration:',
+                otherProps: '⚙️ Other properties',
+                noThemesAvailable: 'No themes available',
+                placeZipFiles: 'Place .zip files in:',
+                themeSelected: 'Theme selected:',
+                verificationNewConfig: 'Verification - New configuration'
+            }
+        };
+
+        let currentLang = localStorage.getItem('gboardLang') || 'en';
+
+        function t(key) {
+            return translations[currentLang][key] || translations['es'][key] || key;
+        }
+
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    el.textContent = translations[currentLang][key];
+                }
+            });
+
+            // Update HTML lang attribute
+            document.documentElement.lang = currentLang === 'es' ? 'es' : 'en';
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            localStorage.setItem('gboardLang', currentLang);
+
+            // Update toggle UI
+            const langSwitch = document.getElementById('langSwitch');
+            const langEs = document.getElementById('langEs');
+            const langEn = document.getElementById('langEn');
+
+            if (currentLang === 'en') {
+                langSwitch.classList.add('en');
+                langEs.classList.remove('active');
+                langEn.classList.add('active');
+            } else {
+                langSwitch.classList.remove('en');
+                langEs.classList.add('active');
+                langEn.classList.remove('active');
+            }
+
+            applyTranslations();
+            log(currentLang === 'en' ? 'Language changed to English' : 'Idioma cambiado a Español', 'info');
+        }
+
+        function initLanguage() {
+            const langSwitch = document.getElementById('langSwitch');
+            const langEs = document.getElementById('langEs');
+            const langEn = document.getElementById('langEn');
+
+            if (currentLang === 'en') {
+                langSwitch.classList.add('en');
+                langEs.classList.remove('active');
+                langEn.classList.add('active');
+            }
+
+            applyTranslations();
+        }
+
+        // ===========================================
+        // Global Variables
+        // ===========================================
         let ksuAvailable = false;
         let moduleActive = false;
         let availableThemes = [];
@@ -662,7 +928,7 @@
         // Inicialización del sistema KSU
         async function initializeKSU() {
             showLoading(true);
-            log('🔍 Detectando entorno KernelSU...', 'info');
+            log(t('detectingKSU'), 'info');
 
             // Debug: Detectar APIs disponibles
             await debugKSUEnvironment();
@@ -676,8 +942,8 @@
                 document.getElementById('rootStatus').style.color = hasRoot ? '#4CAF50' : '#dc2626';
 
                 if (!hasRoot) {
-                    log('⚠️ No se detectó acceso root', 'warning');
-                    showAlert('No se detectó acceso root. Verifique permisos.', 'warning');
+                    log(t('noRootDetected'), 'warning');
+                    showAlert(t('verifyRootPerms'), 'warning');
                 }
 
                 // Verificar proveedor de root (KSU / Magisk)
@@ -716,14 +982,14 @@
                 await checkModule();
 
                 if (hasRoot || ksuAvailable) {
-                    showAlert('Sistema inicializado correctamente', 'success');
+                    showAlert(t('systemInitialized'), 'success');
                 } else {
-                    showAlert('Sistema en modo limitado - Verifique permisos root y KSU', 'warning');
+                    showAlert(t('limitedMode'), 'warning');
                 }
 
             } catch (error) {
-                log(`❌ Error inicializando: ${error.message}`, 'error');
-                showAlert('Error al inicializar el sistema', 'error');
+                log(`❌ Error: ${error.message}`, 'error');
+                showAlert(t('initError'), 'error');
 
                 // Actualizar estados de error
                 document.getElementById('rootStatus').textContent = '✗';
@@ -763,7 +1029,7 @@
 
                 if (moduleCheck.includes('exists')) {
                     moduleActive = true;
-                    updateModuleStatus(true, 'Módulo encontrado y activo');
+                    updateModuleStatus(true, t('moduleFound'));
 
                     // Verificar configuración
                     try {
@@ -780,7 +1046,7 @@
                     await updateCurrentConfig(true);
                 } else {
                     moduleActive = false;
-                    updateModuleStatus(false, 'Módulo no encontrado');
+                    updateModuleStatus(false, t('moduleNotFound'));
                     document.getElementById('configStatus').textContent = '✗';
                     document.getElementById('configStatus').style.color = '#dc2626';
                     document.getElementById('currentConfig').style.display = 'none';
@@ -790,7 +1056,7 @@
             } catch (error) {
                 log(`Error verificando módulo: ${error.message}`, 'error');
                 moduleActive = false;
-                updateModuleStatus(false, 'Error de verificación');
+                updateModuleStatus(false, t('verificationError'));
             }
         }
 
@@ -823,13 +1089,13 @@
         async function scanThemes(autoTrigger = false) {
             if (!moduleActive) {
                 if (!autoTrigger) {
-                    showAlert('Debe verificar el módulo primero', 'warning');
+                    showAlert(t('verifyModuleFirst'), 'warning');
                 }
                 return;
             }
 
             showLoading(true);
-            log('📂 Cargando lista de temas desde themes.json (fetch)...', 'info');
+            log(t('loadingThemes'), 'info');
 
             try {
                 const response = await fetch('themes.json', { cache: 'no-store' });
@@ -854,20 +1120,20 @@
                 document.getElementById('themeCount').textContent = uniqueThemes.length;
 
                 if (uniqueThemes.length > 0) {
-                    log(`🎨 Temas encontrados (${uniqueThemes.length}): ${uniqueThemes.join(', ')}`, 'success');
+                    log(`${t('themesFound')} (${uniqueThemes.length}): ${uniqueThemes.join(', ')}`, 'success');
                     if (!autoTrigger) {
-                        showAlert(`Encontrados ${uniqueThemes.length} temas`, 'success');
+                        showAlert(`${t('themesFound')}: ${uniqueThemes.length}`, 'success');
                     }
                 } else {
-                    log('⚠️ No se encontraron temas en themes.json', 'warning');
+                    log(t('noThemesFound'), 'warning');
                     if (!autoTrigger) {
-                        showAlert('No se encontraron temas en el archivo JSON', 'warning');
+                        showAlert(t('noThemesFound'), 'warning');
                     }
                 }
 
             } catch (error) {
-                log(`❌ Error cargando themes.json vía fetch: ${error.message}`, 'error');
-                showAlert('Error cargando lista de temas', 'error');
+                log(`❌ Error: ${error.message}`, 'error');
+                showAlert(t('loadThemesError'), 'error');
                 availableThemes = [];
             } finally {
                 showLoading(false);
@@ -1093,7 +1359,7 @@
 
         async function applyThemes() {
             if (!moduleActive) {
-                showAlert('Debe verificar el módulo primero', 'warning');
+                showAlert(t('verifyModuleFirst'), 'warning');
                 return;
             }
 
@@ -1102,12 +1368,12 @@
             const darkTheme = document.getElementById('darkTheme').value;
 
             if (!lightTheme || !darkTheme) {
-                showAlert('Debe seleccionar ambos temas', 'warning');
+                showAlert(t('selectBothThemes'), 'warning');
                 return;
             }
 
             showLoading(true);
-            log('Aplicando configuración...', 'info');
+            log(t('applyingConfig'), 'info');
 
             try {
 
@@ -1137,13 +1403,13 @@
                     fullConfig: verifyConfig
                 });
 
-                showAlert('¡Temas aplicados! Reinicia para ver los cambios.', 'success');
-                log('Configuración guardada exitosamente', 'success');
-                log('REINICIO REQUERIDO para aplicar cambios', 'warning');
+                showAlert(t('themesApplied'), 'success');
+                log(t('configSaved'), 'success');
+                log(t('restartRequired'), 'warning');
 
             } catch (error) {
-                log(`Error aplicando temas: ${error.message}`, 'error');
-                showAlert('Error al aplicar temas', 'error');
+                log(`${t('applyError')}: ${error.message}`, 'error');
+                showAlert(t('applyError'), 'error');
             } finally {
                 showLoading(false);
             }
@@ -1152,7 +1418,7 @@
         // Limpiar log
         function clearLog() {
             document.getElementById('logContainer').innerHTML = '';
-            log('Log limpiado', 'info');
+            log(t('logCleared'), 'info');
         }
 
         async function copyLog() {
@@ -1161,7 +1427,7 @@
             const logText = entries.join('\n');
 
             if (!logText.trim()) {
-                showAlert('No hay contenido para copiar', 'warning');
+                showAlert(t('nothingToCopy'), 'warning');
                 return;
             }
 
@@ -1171,8 +1437,8 @@
                 } else {
                     throw new Error('Clipboard API no disponible');
                 }
-                showAlert('Log copiado al portapapeles', 'success');
-                log('Log copiado al portapapeles', 'success');
+                showAlert(t('logCopied'), 'success');
+                log(t('logCopied'), 'success');
             } catch (error) {
                 try {
                     const textarea = document.createElement('textarea');
@@ -1183,24 +1449,27 @@
                     textarea.select();
                     document.execCommand('copy');
                     document.body.removeChild(textarea);
-                    showAlert('Log copiado al portapapeles', 'success');
-                    log('Log copiado al portapapeles', 'success');
+                    showAlert(t('logCopied'), 'success');
+                    log(t('logCopied'), 'success');
                 } catch (fallbackError) {
-                    showAlert('No se pudo copiar el log', 'error');
-                    log(`Error copiando log: ${fallbackError.message}`, 'error');
+                    showAlert(t('copyError'), 'error');
+                    log(`${t('copyError')}: ${fallbackError.message}`, 'error');
                 }
             }
         }
 
         // Inicialización automática
         document.addEventListener('DOMContentLoaded', function () {
-            log('🚀 Gboard Theme Manager cargado', 'success');
-            log(`📱 Módulo: gboardlite_apmods`, 'info');
-            log(`📂 Ruta: ${MODDIR}`, 'info');
-            log(`🎨 Temas: ${THEME_PATH}`, 'info');
-            log('⚡ Listo para KernelSU', 'success');
+            // Initialize language system first
+            initLanguage();
 
-            // Auto-inicializar después de 500ms
+            log('🚀 Gboard Theme Manager', 'success');
+            log(`📱 Module: gboardlite_apmods`, 'info');
+            log(`📂 Path: ${MODDIR}`, 'info');
+            log(`🎨 Themes: ${THEME_PATH}`, 'info');
+            log('⚡ Ready for KernelSU', 'success');
+
+            // Auto-initialize after 500ms
             setTimeout(() => {
                 initializeKSU();
             }, 500);
