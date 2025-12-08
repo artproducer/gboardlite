@@ -157,7 +157,7 @@
 
 | Version    | Release Date | Type   | Key Milestone              |
 |------------|--------------|--------|----------------------------|
-| 2.2.0      | 2025-12-08   | Stable | English WebUI + APK 16.4.3 |
+| 2.2.0      | 2025-12-08   | Stable | English WebUI + APK 16.3.6 |
 | 2.1.0      | 2025-09-22   | Stable | WebUI theme management     |
 | 1.1.0      | 2025-09-19   | Stable | Multi-language support     |
 | 1.0.0      | 2024-09-18   | Stable | First stable release       |
