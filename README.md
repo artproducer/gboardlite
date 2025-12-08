@@ -1,4 +1,5 @@
 # 🚀 Gboard Lite Module
+
 [![KernelSU](https://img.shields.io/badge/KernelSU-supported-brightgreen?style=flat-square)](https://kernelsu.org)
 [![Magisk](https://img.shields.io/badge/Magisk-supported-blue?style=flat-square)](https://github.com/topjohnwu/Magisk)
 [![Android](https://img.shields.io/badge/Android-8.1%2B-green?style=flat-square)](https://android.com)
@@ -11,6 +12,7 @@ Transform your typing experience with Gboard Lite - a streamlined version of Goo
 ## ✨ Features
 
 ### 🎯 **Core Benefits**
+
 - **🪶 Lightweight Design** - Reduced app size and memory footprint
 - **⚡ Enhanced Performance** - Faster startup and smoother typing
 - **🔋 Battery Optimized** - Less background activity and resource usage
@@ -18,6 +20,7 @@ Transform your typing experience with Gboard Lite - a streamlined version of Goo
 - **📱 System Integration** - Full system-level keyboard privileges
 
 ### 🔧 **Technical Features**
+
 - **Automatic Installation** - Seamlessly replaces existing keyboard apps
 - **Smart Backup System** - Safely restores original files on uninstall
 - **Multi-Architecture Support** - Works on ARM, ARM64 devices
@@ -28,14 +31,15 @@ Transform your typing experience with Gboard Lite - a streamlined version of Goo
 - **⚙️ Configurable System Props** - Directly updates `system.prop` with light/dark themes and custom paths
 
 ### 🚫 **What's Removed**
+
 - Heavy animation effects
 - Excessive telemetry and analytics
 - Unnecessary background services
 - Large language model downloads
 - Resource-intensive features
 
-
 > ⚠️ **Important / Importante:**  
+>
 > - **English:** If you are using **KernelSU**, make sure to **disable the "Unmount modules on boot" option** in the KernelSU app settings. Otherwise, the module may not work correctly.  
 > - **Español:** Si estás usando **KernelSU**, asegúrate de **desactivar la opción "Desmontar módulos al iniciar"** en los ajustes de la app de KernelSU. De lo contrario, el módulo podría no funcionar correctamente.  
 
@@ -49,10 +53,10 @@ Transform your typing experience with Gboard Lite - a streamlined version of Goo
 | **Storage** | 50MB free space |
 | **Internet** | Required for initial download |
 
-
 ## 🔧 Installation
 
 ### **Method 1: Magisk/KSU Manager**
+
 1. Download the latest `.zip` from [Releases](../../releases)
 2. Open Magisk/KSU Manager
 3. Go to **Modules** → **Install from storage**
@@ -72,10 +76,12 @@ Transform your typing experience with Gboard Lite - a streamlined version of Goo
 The module includes a comprehensive uninstall system:
 
 ### **Via Module Manager**
+
 - Simply remove the module from Magisk/KernelSU Manager
 - Reboot to complete the process
 
 ### **What Happens During Uninstall**
+
 - ✅ Original keyboard apps are restored
 - ✅ All module files are removed
 - ✅ System returns to pre-installation state
@@ -87,25 +93,30 @@ The module includes a comprehensive uninstall system:
 <summary><strong>🚨 Common Issues & Solutions</strong></summary>
 
 ### **Installation Failed**
+
 - Ensure you have sufficient storage space
 - Check your internet connection
 - Verify root method compatibility
 
 ### **Keyboard Not Appearing**
+
 - Go to Settings → System → Languages & input
 - Enable Gboard and set as default
 - Clear keyboard app cache if needed
 
 ### **Multiple Root Detected**
+
 - The module doesn't support Magisk + KernelSU simultaneously
 - Choose one root method and remove the other
 
 ### **Download Errors**
+
 - Check internet connectivity
 - Try using a different network (WiFi/Mobile data)
 - Ensure GitHub access isn't blocked
 
 ### **Module Not Working**
+
 - Check `/cache/magisk.log` or KernelSU logs
 - Verify your Android version meets requirements
 - Try reinstalling the module
@@ -115,6 +126,7 @@ The module includes a comprehensive uninstall system:
 ## 📊 Compatibility
 
 ### ✅ **Tested Devices**
+
 - Samsung Galaxy series
 - Google Pixel series  
 - OnePlus devices
@@ -122,8 +134,8 @@ The module includes a comprehensive uninstall system:
 - Custom ROM installations
 
 ### ✅ **Supported Android Versions**
-- Android 8.1 to Android 16
 
+- Android 8.1 to Android 16
 
 ## 🤝 Contributing
 
@@ -145,6 +157,7 @@ We welcome contributions from the community! Here's how you can help:
 ## ⭐ Show Your Support
 
 If this module helped improve your Android experience:
+
 - ⭐ **Star this repository**
 - 🚀 **Boost our Telegram** - [Click here](https://t.me/apmods?boost)
 - 🗣️ **Share with friends**
@@ -153,14 +166,6 @@ If this module helped improve your Android experience:
 ## 📄 License
 
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 📈 Stats
-
-![GitHub Downloads](https://img.shields.io/github/downloads/username/gboard-lite-module/total?style=flat-square)
-![GitHub Stars](https://img.shields.io/github/stars/username/gboard-lite-module?style=flat-square)
-![GitHub Forks](https://img.shields.io/github/forks/username/gboard-lite-module?style=flat-square)
 
 ---
 
