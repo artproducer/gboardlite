@@ -5,7 +5,7 @@
 ### ✨ Added
 
 - **English language support (WebUI)** - The web interface now supports both English and Spanish with a toggle switch
-- **APK updated to version 16.4.3** - Latest Gboard Lite with performance improvements
+- **APK updated to version 16.3.6** - Latest Gboard Lite with performance improvements
 
 ---
 
