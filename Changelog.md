@@ -1,5 +1,32 @@
 # 📋 Changelog
 
+## [2.3.0] - 2026-02-10 🚀
+
+### ✨ Added
+
+- **Download retry mechanism** - APK download now retries up to 3 times with delay on failure
+- **APK size validation** - Verifies downloaded APK is larger than 1MB to detect corrupt downloads
+- **WebUI server auto-start** - Web server now starts automatically at boot for theme management
+- **timeout command fallback** - Gracefully handles devices without the `timeout` command
+
+### 🔧 Changed
+
+- **Refactored localization system** - Compact `_msg()` helper reduces lang.sh from 271 to ~105 lines
+- **Unified detect_language()** - Single implementation in lang.sh, shared across all scripts
+- **Unified keyboard paths** - REMOVE/REPLACE paths defined once instead of duplicated
+- **Simplified uninstall logging** - Log messages always in English for debugging clarity (70% size reduction)
+- **Simplified service script** - Removed redundant localization for log-only messages (48% size reduction)
+- **Synced version numbers** - module.prop and update.json now consistent
+- **Updated documentation** - Fixed architecture info and download links in README
+
+### 🐛 Fixed
+
+- **Dead code: apply_theme()** - Moved before main() execution in post-fs-data.sh
+- **Dead code: start_webui_server()** - Now properly called from service.sh main()
+- **Version mismatch** - module.prop (was 2.2) now matches update.json (2.3)
+
+---
+
 ## [2.2.0] - 2025-12-08 🚀
 
 ### ✨ Added
@@ -157,6 +184,7 @@
 
 | Version    | Release Date | Type   | Key Milestone              |
 |------------|--------------|--------|----------------------------|
+| 2.3.0      | 2026-02-10   | Stable | Code refactor + retry DL   |
 | 2.2.0      | 2025-12-08   | Stable | English WebUI + APK 16.3.6 |
 | 2.1.0      | 2025-09-22   | Stable | WebUI theme management     |
 | 1.1.0      | 2025-09-19   | Stable | Multi-language support     |
@@ -169,18 +197,20 @@
 
 ## 🎯 Roadmap
 
-### Version 1.2.0 (Planned)
+### Version 2.4.0 (Planned)
 
-- [ ] Charging XD
+- [ ] APK checksum/hash verification for download integrity
+- [ ] Support for additional languages (Portuguese, French)
+- [ ] Automatic theme backup on uninstall
 
 ---
 
 ## 🔗 Links
 
-- **Download Latest**: [v1.1.0 Release](../../releases/tag/v1.1.0)
+- **Download Latest**: [v2.3.0 Release](../../releases/latest)
 - **Report Issues**: [GitHub Issues](../../issues)
-- **Join Community**: [Telegram @apmods](https://t.me/apmods)
-- **Get Support**: [Telegram Chat](https://t.me/apmodsgrupo)
+- **Join Community**: [Telegram @apmodsx](https://t.me/apmodsx)
+- **Get Support**: [Telegram Chat](https://t.me/apmodsgroup)
 
 ---
 
@@ -213,6 +243,6 @@
 
 *Haciendo la instalación más accesible para todos*
 
-**Maintained by [APMods Team](https://t.me/apmods)**
+**Maintained by [APMods Team](https://t.me/apmodsx)**
 
 </div>

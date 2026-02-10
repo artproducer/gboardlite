@@ -23,7 +23,7 @@ Transform your typing experience with Gboard Lite - a streamlined version of Goo
 
 - **Automatic Installation** - Seamlessly replaces existing keyboard apps
 - **Smart Backup System** - Safely restores original files on uninstall
-- **Multi-Architecture Support** - Works on ARM, ARM64 devices
+- **Multi-Architecture Support** - Works on ARMv7 and ARM64 devices
 - **Version Sync** - Maintains compatibility with your current Gboard version
 - **System App Privileges** - Full access to Android keyboard APIs
 - **🌐 WebUI Theme Manager** - Integrated web interface to scan, preview and apply custom themes
@@ -49,7 +49,7 @@ Transform your typing experience with Gboard Lite - a streamlined version of Goo
 |-----------|-------------|
 | **Android Version** | 8.1+ (API 27+) |
 | **Root Method** | KernelSU or Magisk |
-| **Architecture** | ARM, ARM64, x86, x86_64 |
+| **Architecture** | ARM (armeabi-v7a), ARM64 (arm64-v8a) |
 | **Storage** | 50MB free space |
 | **Internet** | Required for initial download |
 
@@ -149,8 +149,8 @@ We welcome contributions from the community! Here's how you can help:
 
 ## 📞 Support & Community
 
-- 💬 **Telegram Channel**: [@apmods](https://t.me/apmods)
-- 🆘 **Support Group**: [@apmods_chat](https://t.me/apmodsgrupo)
+- 💬 **Telegram Channel**: [@apmodsx](https://t.me/apmodsx)
+- 🆘 **Support Group**: [@apmodsgroup](https://t.me/apmodsgroup)
 - 🐛 **Bug Reports**: [GitHub Issues](../../issues)
 - 📧 **Contact**: [@artistaproducer](https://t.me/artistaproducer)
 
@@ -159,7 +159,7 @@ We welcome contributions from the community! Here's how you can help:
 If this module helped improve your Android experience:
 
 - ⭐ **Star this repository**
-- 🚀 **Boost our Telegram** - [Click here](https://t.me/apmods?boost)
+- 🚀 **Boost our Telegram** - [Click here](https://t.me/apmodsx?boost)
 - 🗣️ **Share with friends**
 - ☕ **Buy us a coffee** - [Donation Link](#)
 
@@ -171,7 +171,7 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 <div align="center">
 
-**Made with ❤️ by [APMods Team](https://t.me/apmods)**
+**Made with ❤️ by [APMods Team](https://t.me/apmodsx)**
 
 *Transforming Android experiences, one module at a time*
 

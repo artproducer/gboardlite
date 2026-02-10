@@ -1,6 +1,6 @@
 #!/system/bin/sh
 # Gboard Lite post-fs-data script
-# Applies system.prop and mounts only necessary resources when running under KernelSU
+# Applies system.prop and mounts resources when running under KernelSU
 
 MODDIR=${0%/*}
 PROPFILE="$MODDIR/system.prop"
@@ -32,17 +32,13 @@ ensure_path() {
 	local type="$2"
 
 	if [ "$type" = "dir" ]; then
-		if [ -d "$target" ]; then
-			return 0
-		fi
+		[ -d "$target" ] && return 0
 		mkdir -p "$target" 2>/dev/null
 		return $?
 	else
 		local parent="${target%/*}"
 		if [ -n "$parent" ] && [ "$parent" != "$target" ]; then
-			if ! ensure_path "$parent" dir; then
-				return 1
-			fi
+			ensure_path "$parent" dir || return 1
 		fi
 		[ -e "$target" ] || touch "$target" 2>/dev/null
 		return $?
@@ -91,10 +87,23 @@ set_theme_permissions() {
 	fi
 }
 
+# Apply theme configuration to system.prop
+# Called from WebUI CGI scripts
+apply_theme() {
+	local light="$1"
+	local dark="$2"
+
+	# Remove previous configurations
+	sed -i '/ro.com.google.ime.theme_file=/d' "$PROPFILE"
+	sed -i '/ro.com.google.ime.d_theme_file=/d' "$PROPFILE"
+
+	# Write new ones
+	echo "ro.com.google.ime.theme_file=$light" >>"$PROPFILE"
+	echo "ro.com.google.ime.d_theme_file=$dark" >>"$PROPFILE"
+}
+
 apply_system_props() {
-	if [ ! -f "$PROPFILE" ]; then
-		return
-	fi
+	[ ! -f "$PROPFILE" ] && return
 
 	if [ -d "/dev/.magisk_unblock" ]; then
 		log_msg "Magisk in uninstall mode, not applying props"
@@ -108,9 +117,7 @@ apply_system_props() {
 		value=$(echo "$value" | tr -d '\r' | sed 's/^[ \t]*//;s/[ \t]*$//')
 
 		# Skip empty lines or comments
-		if [ -z "$key" ] || [ "${key#\#}" != "$key" ]; then
-			continue
-		fi
+		[ -z "$key" ] || [ "${key#\#}" != "$key" ] && continue
 
 		# Try with resetprop -n (for ro.*)
 		if resetprop -n "$key" "$value" 2>/dev/null; then
@@ -127,7 +134,7 @@ main() {
 	detect_root_impl
 	log_msg "Root manager detected: $ROOT_IMPL"
 
-	# 1. First mount resources
+	# 1. Mount resources (KSU only)
 	if [ "$ROOT_IMPL" = "ksu" ]; then
 		if [ -d "$APP_SRC_DIR" ]; then
 			bind_mount "$APP_SRC_DIR" "$APP_DST_DIR"
@@ -146,23 +153,10 @@ main() {
 		log_msg "No additional mount actions for $ROOT_IMPL"
 	fi
 
-	# 2. Then apply system.prop (when path already exists)
+	# 2. Apply system.prop
 	apply_system_props
 
 	log_msg "post-fs-data script completed"
 }
 
 main "$@"
-
-apply_theme() {
-	light="$1"
-	dark="$2"
-
-	# Remove previous configurations
-	sed -i '/ro.com.google.ime.theme_file=/d' "$PROPFILE"
-	sed -i '/ro.com.google.ime.d_theme_file=/d' "$PROPFILE"
-
-	# Write new ones
-	echo "ro.com.google.ime.theme_file=$light" >>"$PROPFILE"
-	echo "ro.com.google.ime.d_theme_file=$dark" >>"$PROPFILE"
-}

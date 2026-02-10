@@ -13,25 +13,27 @@ MINAPI=27
 # Global variables
 VERSION=""
 BASEPATH=""
-LANG_ES=false
 
-# Function to detect system language
-detect_language() {
-	local system_lang=$(getprop persist.sys.locale)
-	if [ -z "$system_lang" ]; then
-		system_lang=$(getprop ro.product.locale.language)
-	fi
+# Keyboard paths to replace/remove (shared by KSU and Magisk)
+KEYBOARD_PATHS="
+      /system/product/priv-app/LatinIME
+      /system/product/app/LatinIME
+      /system/product/app/LatinIMEGooglePrebuilt
+      /system/product/app/LatinImeGoogle
+      /system/system_ext/app/LatinIMEGooglePrebuilt
+      /system/app/LatinIMEGooglePrebuilt
+      /system/product/app/GBoard
+      /system/app/SogouInput
+      /system/app/gboardlite_apmods
+      /system/app/HoneyBoard
+      /system/product/app/EnhancedGboard
+      /system/product/app/SogouInput_S_Product
+      /system/product/app/MIUISecurityInputMethod
+      /system/product/app/OPlusSegurityKeyboard
+      /system/product/priv-app/OPlusSegurityKeyboard
+    "
 
-	case "$system_lang" in
-	*es* | *ES* | es_* | ES_* | ES-* | es-*)
-		LANG_ES=true
-		;;
-	*)
-		LANG_ES=false
-		;;
-	esac
-}
-
+# Source localization (provides detect_language, _msg, ui_print_lang)
 . $TMPDIR/lang.sh
 
 # Function to get Gboard version
@@ -86,46 +88,14 @@ print_modname() {
 			abort "*********************************************************"
 		fi
 
-		# Define paths to remove for Ksu
-		REMOVE="
-      /system/product/priv-app/LatinIME
-      /system/product/app/LatinIME
-      /system/product/app/LatinIMEGooglePrebuilt
-      /system/product/app/LatinImeGoogle
-      /system/system_ext/app/LatinIMEGooglePrebuilt
-      /system/app/LatinIMEGooglePrebuilt
-      /system/product/app/GBoard
-      /system/app/SogouInput
-      /system/app/gboardlite_apmods
-      /system/app/HoneyBoard
-      /system/product/app/EnhancedGboard
-      /system/product/app/SogouInput_S_Product
-      /system/product/app/MIUISecurityInputMethod
-      /system/product/app/OPlusSegurityKeyboard
-      /system/product/priv-app/OPlusSegurityKeyboard
-    "
+		# KSU uses REMOVE variable
+		REMOVE="$KEYBOARD_PATHS"
 
 	elif [ "$BOOTMODE" ] && [ "$MAGISK_VER_CODE" ]; then
 		ui_print_lang "provider_magisk"
 
-		# Define paths to replace for Magisk
-		REPLACE="
-      /system/product/priv-app/LatinIME
-      /system/product/app/LatinIME
-      /system/product/app/LatinIMEGooglePrebuilt
-      /system/product/app/LatinImeGoogle
-      /system/system_ext/app/LatinIMEGooglePrebuilt
-      /system/app/LatinIMEGooglePrebuilt
-      /system/product/app/GBoard
-      /system/app/SogouInput
-      /system/app/gboardlite_apmods
-      /system/app/HoneyBoard
-      /system/product/app/EnhancedGboard
-      /system/product/app/SogouInput_S_Product
-      /system/product/app/MIUISecurityInputMethod
-      /system/product/app/OPlusSegurityKeyboard
-      /system/product/priv-app/OPlusSegurityKeyboard
-    "
+		# Magisk uses REPLACE variable
+		REPLACE="$KEYBOARD_PATHS"
 	else
 		ui_print_lang "unsupported_recovery"
 		abort "*********************************************************"
@@ -135,25 +105,39 @@ print_modname() {
 	sleep 2.0
 }
 
-# Function to download Gboard Lite APK
+# Function to download Gboard Lite APK (with retry mechanism)
 download_gboard_lite() {
 	local VW_APK_URL="https://github.com/artproducer/gboardlite/raw/main/release/${ARCH}/base.apk"
 	local APK_PATH="$MODPATH/system/product/app/gboardlite_apmods/base.apk"
+	local MAX_RETRIES=3
+	local RETRY_COUNT=0
 
 	ui_print_lang "downloading_gboard"
 
-	if ! $MODPATH/bin/curl -skL --connect-timeout 30 --max-time 300 "$VW_APK_URL" -o "$APK_PATH"; then
-		ui_print_lang "download_failed"
-		return 1
-	fi
+	while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+		RETRY_COUNT=$((RETRY_COUNT + 1))
 
-	if [ ! -f "$APK_PATH" ] || [ ! -s "$APK_PATH" ]; then
-		ui_print_lang "download_invalid"
-		return 1
-	fi
+		if $MODPATH/bin/curl -skL --connect-timeout 30 --max-time 300 "$VW_APK_URL" -o "$APK_PATH" 2>/dev/null; then
+			# Verify file exists and is larger than 1MB (valid APK)
+			local file_size=$(wc -c <"$APK_PATH" 2>/dev/null || echo 0)
+			if [ -f "$APK_PATH" ] && [ "$file_size" -gt 1048576 ]; then
+				ui_print_lang "download_success"
+				return 0
+			fi
+			ui_print_lang "download_invalid"
+		else
+			ui_print_lang "download_failed"
+		fi
 
-	ui_print_lang "download_success"
-	return 0
+		# Retry with delay (except on last attempt)
+		if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+			export RETRY_COUNT MAX_RETRIES
+			ui_print_lang "download_retry"
+			sleep 3
+		fi
+	done
+
+	return 1
 }
 
 # Function to handle existing Gboard installation
@@ -236,12 +220,13 @@ optimize_gboard() {
 on_install() {
 	detect_language
 
-	# set description
+	# Set description based on language
 	if [ "$LANG_ES" = true ]; then
 		sed -i 's|^description=.*|description=Instalador online de Gboard Lite optimizado para dispositivos ARMv7 y ARM64 (Android 8.1+). Ideal para ROMs personalizadas.|' "$MODPATH/module.prop"
 	else
 		sed -i 's|^description=.*|description=Online installer for Gboard Lite, optimized for ARMv7 and ARM64 devices (Android 8.1+). Perfect for custom ROMs.|' "$MODPATH/module.prop"
 	fi
+
 	# Check API level
 	if [ -n "$MINAPI" ] && [ "$API" -lt "$MINAPI" ]; then
 		ui_print_lang "api_error"
@@ -249,10 +234,10 @@ on_install() {
 
 	# Create necessary directories
 	ui_print_lang "extracting_binaries"
-	mkdir -p "$MODPATH/bin" "$MODPATH/system/product/app/gboardlite_apmods" || {
+	if ! mkdir -p "$MODPATH/bin" "$MODPATH/system/product/app/gboardlite_apmods"; then
 		ui_print_lang "failed_create_dirs"
 		ui_print_lang "installation_failed"
-	}
+	fi
 
 	# Extract curl and cmpr binaries
 	if ! unzip -oj "$ZIPFILE" "bin/$ARCH/curl" -d "$MODPATH/bin" >/dev/null 2>&1; then
@@ -288,7 +273,7 @@ on_install() {
 	get_version
 	ui_print_lang "current_gboard_version"
 
-	# Download Gboard Lite
+	# Download Gboard Lite (with retry)
 	ui_print_lang "checking_latest_version"
 	if ! download_gboard_lite; then
 		ui_print_lang "failed_download_gboard"
@@ -325,7 +310,7 @@ set_permissions() {
 	sleep 2
 
 	# Open Telegram and YouTube links (non-blocking)
-	nohup am start -a android.intent.action.VIEW -d "https://t.me/apmods" >/dev/null 2>&1 &
+	nohup am start -a android.intent.action.VIEW -d "https://t.me/apmodsx" >/dev/null 2>&1 &
 	sleep 3.0
-	nohup am start -a android.intent.action.VIEW -d "https://t.me/boost/apmods" >/dev/null 2>&1 &
+	nohup am start -a android.intent.action.VIEW -d "https://t.me/boost/apmodsx" >/dev/null 2>&1 &
 }
