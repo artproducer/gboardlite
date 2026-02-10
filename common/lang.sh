@@ -97,6 +97,9 @@ ui_print_lang() {
 	"download_retry")
 		ui_print "- $(_msg "Reintentando descarga ($RETRY_COUNT/$MAX_RETRIES)..." "Retrying download ($RETRY_COUNT/$MAX_RETRIES)...")"
 		;;
+	"replacing_keyboards")
+		ui_print "- $(_msg "Reemplazando teclados del sistema..." "Replacing system keyboards...")"
+		;;
 	"gboard_not_installed")
 		ui_print "- $(_msg "Gboard no esta instalado" "Gboard is not installed")"
 		;;

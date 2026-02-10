@@ -15,23 +15,20 @@ VERSION=""
 BASEPATH=""
 
 # Keyboard paths to replace/remove (shared by KSU and Magisk)
-KEYBOARD_PATHS="
-      /system/product/priv-app/LatinIME
-      /system/product/app/LatinIME
-      /system/product/app/LatinIMEGooglePrebuilt
-      /system/product/app/LatinImeGoogle
-      /system/system_ext/app/LatinIMEGooglePrebuilt
-      /system/app/LatinIMEGooglePrebuilt
-      /system/product/app/GBoard
-      /system/app/SogouInput
-      /system/app/gboardlite_apmods
-      /system/app/HoneyBoard
-      /system/product/app/EnhancedGboard
-      /system/product/app/SogouInput_S_Product
-      /system/product/app/MIUISecurityInputMethod
-      /system/product/app/OPlusSegurityKeyboard
-      /system/product/priv-app/OPlusSegurityKeyboard
-    "
+KEYBOARD_PATHS="/system/product/priv-app/LatinIME
+/system/product/app/LatinIME
+/system/product/app/LatinIMEGooglePrebuilt
+/system/product/app/LatinImeGoogle
+/system/system_ext/app/LatinIMEGooglePrebuilt
+/system/app/LatinIMEGooglePrebuilt
+/system/product/app/GBoard
+/system/app/SogouInput
+/system/app/HoneyBoard
+/system/product/app/EnhancedGboard
+/system/product/app/SogouInput_S_Product
+/system/product/app/MIUISecurityInputMethod
+/system/product/app/OPlusSegurityKeyboard
+/system/product/priv-app/OPlusSegurityKeyboard"
 
 # Source localization (provides detect_language, _msg, ui_print_lang)
 . $TMPDIR/lang.sh
@@ -101,6 +98,8 @@ print_modname() {
 		abort "*********************************************************"
 	fi
 
+	# Show apps being replaced
+	ui_print_lang "replacing_keyboards"
 	ui_print "-------------------------------------"
 	sleep 2.0
 }

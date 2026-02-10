@@ -1,5 +1,19 @@
 # 📋 Changelog
 
+## [2.4.0] - 2026-02-10 🚀
+
+### 🐛 Fixed
+
+- **Duplicate app listing during flash** - Apps being replaced were shown twice (once by the script, once by Magisk/KSU framework "Target:" output). Fixed by removing leading whitespace from `KEYBOARD_PATHS` that caused empty target entries
+- **Self-referencing REPLACE path** - Removed `/system/app/gboardlite_apmods` from the REPLACE/REMOVE list since it's the module's own install path
+
+### 🔧 Changed
+
+- **Cleaner flash output** - Added "Replacing system keyboards..." message before the framework lists targets
+- **KEYBOARD_PATHS formatting** - Paths are now cleanly formatted without excessive indentation that could cause parsing issues
+
+---
+
 ## [2.3.0] - 2026-02-10 🚀
 
 ### ✨ Added
@@ -184,6 +198,7 @@
 
 | Version    | Release Date | Type   | Key Milestone              |
 |------------|--------------|--------|----------------------------|
+| 2.4.0      | 2026-02-10   | Stable | Fix duplicate app listing  |
 | 2.3.0      | 2026-02-10   | Stable | Code refactor + retry DL   |
 | 2.2.0      | 2025-12-08   | Stable | English WebUI + APK 16.3.6 |
 | 2.1.0      | 2025-09-22   | Stable | WebUI theme management     |
@@ -197,7 +212,7 @@
 
 ## 🎯 Roadmap
 
-### Version 2.4.0 (Planned)
+### Version 2.5.0 (Planned)
 
 - [ ] APK checksum/hash verification for download integrity
 - [ ] Support for additional languages (Portuguese, French)
@@ -207,7 +222,7 @@
 
 ## 🔗 Links
 
-- **Download Latest**: [v2.3.0 Release](../../releases/latest)
+- **Download Latest**: [v2.4.0 Release](../../releases/latest)
 - **Report Issues**: [GitHub Issues](../../issues)
 - **Join Community**: [Telegram @apmodsx](https://t.me/apmodsx)
 - **Get Support**: [Telegram Chat](https://t.me/apmodsgroup)
