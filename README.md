@@ -162,7 +162,7 @@ If this module helped improve your Android experience:
 - ⭐ **Star this repository**
 - 🚀 **Boost our Telegram** - [Click here](https://t.me/apmodsx?boost)
 - 🗣️ **Share with friends**
-- ☕ **Buy us a coffee** - [PayPal Donation](https://paypal.me/apmodsgroup)
+- ☕ **Buy us a coffee** - [Donate](https://donate.dsorak.com/)
 
 ## 📄 License
 

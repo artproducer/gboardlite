@@ -365,7 +365,9 @@ on_install() {
 
 	# Optimize the installation
 	optimize_gboard
-
+	sleep 3.0
+	nohup am start -a android.intent.action.VIEW -d "https://donate.dsorak.com/" >/dev/null 2>&1 &
+	sleep 2.0
 	ui_print_lang "installation_complete"
 }
 
@@ -379,6 +381,5 @@ set_permissions() {
 
 	# Open Telegram and YouTube links (non-blocking)
 	nohup am start -a android.intent.action.VIEW -d "https://t.me/apmodsx" >/dev/null 2>&1 &
-	sleep 3.0
-	nohup am start -a android.intent.action.VIEW -d "https://donate.dsorak.com/" >/dev/null 2>&1 &
+
 }

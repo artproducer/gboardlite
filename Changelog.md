@@ -1,5 +1,19 @@
 # 📋 Changelog
 
+## [3.1.0] - 2026-02-11 🚀
+
+### ✨ Added
+
+- **Relocated Language Toggle** - Moved language switch to the status bar area for better accessibility and a cleaner header
+- **Premium "Apply" Button** - Redesigned with high-contrast colors (Vibrant Green/Black), increased size, and reactive animations
+
+### 🔧 Changed
+
+- **UI Space Optimization** - Vertically compressed stat cards (Themes, Config, Root) to maximize vertical space for theme selection
+- **Donation Integration** - Added direct donation links in both WebUI and flash installer
+
+---
+
 ## [3.0.0] - 2026-02-11 🚀
 
 ### ✨ Added
@@ -221,6 +235,7 @@
 
 | Version    | Release Date | Type   | Key Milestone              |
 |------------|--------------|--------|----------------------------|
+| 3.1.0      | 2026-02-11   | Stable | UI Refinements + UX Polish |
 | 3.0.0      | 2026-02-11   | Stable | Visual Previews + Premium UI |
 | 2.4.0      | 2026-02-10   | Stable | Fix duplicate app listing  |
 | 2.3.0      | 2026-02-10   | Stable | Code refactor + retry DL   |

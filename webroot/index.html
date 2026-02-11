@@ -42,11 +42,6 @@
         </div>
 
         <div class="header">
-            <div class="lang-toggle">
-                <span id="langEs">ES</span>
-                <div id="langSwitch" class="lang-switch en" onclick="toggleLanguage()"></div>
-                <span id="langEn" class="active">EN</span>
-            </div>
             <h1>🎨 Gboard Theme Manager</h1>
             <p data-i18n="headerSubtitle">KernelSU WebUI — gboardlite_apmods</p>
         </div>
@@ -62,8 +57,15 @@
                     </svg>
                     <span data-i18n="statusTitle">Status</span>
                 </h2>
-                <div id="moduleStatus" class="module-status status-warning">
-                    <span data-i18n="verifyingModule">Verifying module...</span>
+                <div class="status-row">
+                    <div id="moduleStatus" class="module-status status-warning">
+                        <span data-i18n="verifyingModule">Verifying module...</span>
+                    </div>
+                    <div class="lang-toggle">
+                        <span id="langEs">ES</span>
+                        <div id="langSwitch" class="lang-switch en" onclick="toggleLanguage()"></div>
+                        <span id="langEn" class="active">EN</span>
+                    </div>
                 </div>
 
                 <div class="stats-grid">
