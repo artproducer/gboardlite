@@ -1,6 +1,6 @@
 {
-  "version": "3.0",
-  "versionCode": 300,
+  "version": "3.1",
+  "versionCode": 310,
   "zipUrl": "https://github.com/artproducer/gboardlite/releases/latest/download/gboardlite.zip",
   "changelog": "https://raw.githubusercontent.com/artproducer/gboardlite/main/Changelog.md"
 }
