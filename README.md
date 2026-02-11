@@ -26,9 +26,10 @@ Transform your typing experience with Gboard Lite - a streamlined version of Goo
 - **Multi-Architecture Support** - Works on ARMv7 and ARM64 devices
 - **Version Sync** - Maintains compatibility with your current Gboard version
 - **System App Privileges** - Full access to Android keyboard APIs
-- **🌐 WebUI Theme Manager** - Integrated web interface to scan, preview and apply custom themes
-- **🔄 Auto Theme Detection** - Instantly lists all `.zip` themes available, removing duplicates and sorting results
-- **⚙️ Configurable System Props** - Directly updates `system.prop` with light/dark themes and custom paths
+- **📸 Visual Theme Manager** - Premium WebUI with image previews, horizontal scrolling, and real-time persistence
+- **🔄 Auto Theme Detection** - Intelligent scanner for `.zip` themes with automatic duplicate removal and sorting
+- **⚙️ Smart Config Sync** - Real-time synchronization between WebUI and system configuration
+- **✨ Vibrant Aesthetics** - Modern, animated interface designed for a premium user experience
 
 ### 🚫 **What's Removed**
 
@@ -62,13 +63,13 @@ Transform your typing experience with Gboard Lite - a streamlined version of Goo
 3. Go to **Modules** → **Install from storage**
 4. Select the downloaded zip file
 5. Reboot your device
-6. Open accion for Theme Manager
+6. Open the WebUI for Theme Manager
 
 ## 🛠️ Post-Installation
 
 1. **Open Settings** → **System** → **Languages & input**
 2. **Select** "Gboard" as your default keyboard
-3. **Configure** your preferred settings
+3. **Customize** - Use the WebUI Theme Manager to apply stunning visual themes with previews
 4. **Enjoy** the optimized typing experience!
 
 ## 🗑️ Uninstallation
@@ -161,7 +162,7 @@ If this module helped improve your Android experience:
 - ⭐ **Star this repository**
 - 🚀 **Boost our Telegram** - [Click here](https://t.me/apmodsx?boost)
 - 🗣️ **Share with friends**
-- ☕ **Buy us a coffee** - [Donation Link](#)
+- ☕ **Buy us a coffee** - [PayPal Donation](https://paypal.me/apmodsgroup)
 
 ## 📄 License
 

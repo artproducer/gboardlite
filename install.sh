@@ -85,23 +85,38 @@ print_modname() {
 			abort "*********************************************************"
 		fi
 
-		# KSU uses REMOVE variable
-		REMOVE="$KEYBOARD_PATHS"
+		local USE_KSU=true
 
 	elif [ "$BOOTMODE" ] && [ "$MAGISK_VER_CODE" ]; then
 		ui_print_lang "provider_magisk"
 
-		# Magisk uses REPLACE variable
-		REPLACE="$KEYBOARD_PATHS"
+		local USE_KSU=false
 	else
 		ui_print_lang "unsupported_recovery"
 		abort "*********************************************************"
 	fi
 
-	# Show apps being replaced
+	# Check each keyboard path and only replace if it exists
 	ui_print_lang "replacing_keyboards"
-	ui_print "-------------------------------------"
-	sleep 2.0
+
+	local FOUND_PATHS=""
+	local FOUND_COUNT=0
+	for kpath in $KEYBOARD_PATHS; do
+		if [ -d "$kpath" ]; then
+			FOUND_PATHS="${FOUND_PATHS}
+${kpath}"
+			FOUND_COUNT=$((FOUND_COUNT + 1))
+			ui_print "  ✓ $(_msg "Eliminado" "Removed"): ${kpath##*/}"
+		fi
+	done
+
+	# Assign only existing paths to the correct variable
+	if [ "$USE_KSU" = true ]; then
+		REMOVE="$FOUND_PATHS"
+	else
+		REPLACE="$FOUND_PATHS"
+	fi
+	sleep 1.0
 }
 
 # Function to download Gboard Lite APK (with retry mechanism)
@@ -268,6 +283,60 @@ on_install() {
 	ui_print_lang "extracting_webroot"
 	unzip -o "$ZIPFILE" 'webroot/*' -d "$MODPATH" >/dev/null 2>&1
 
+	# Generate themes.json and copy preview images
+	local THEME_DIR="$MODPATH/system/etc/gboard_theme"
+	local WEBROOT_DIR="$MODPATH/webroot"
+	if [ -d "$THEME_DIR" ]; then
+		local THEMES_JSON="$WEBROOT_DIR/themes.json"
+		local PREVIEW_DIR="$WEBROOT_DIR/previews"
+		mkdir -p "$PREVIEW_DIR"
+
+		# Copy preview images (files without .zip extension)
+		for img in "$THEME_DIR"/*; do
+			[ -f "$img" ] || continue
+			case "$img" in *.zip) continue ;; esac
+			cp "$img" "$PREVIEW_DIR/" 2>/dev/null
+		done
+
+		echo "[" >"$THEMES_JSON"
+		local FIRST=true
+		for f in "$THEME_DIR"/*.zip; do
+			[ -f "$f" ] || continue
+			local fname=$(basename "$f")
+			local preview_name="${fname%.zip}"
+			local has_preview=""
+			if [ -f "$PREVIEW_DIR/$preview_name" ]; then
+				has_preview="previews/$preview_name"
+			fi
+			if [ "$FIRST" = true ]; then
+				FIRST=false
+			else
+				echo "," >>"$THEMES_JSON"
+			fi
+			printf '{"filename":"%s","preview":"%s"}' "$fname" "$has_preview" >>"$THEMES_JSON"
+		done
+		echo "" >>"$THEMES_JSON"
+		echo "]" >>"$THEMES_JSON"
+	fi
+
+	# Generate config.json from system.prop defaults
+	local CONFIG_JSON="$WEBROOT_DIR/config.json"
+	local LIGHT_THEME=""
+	local DARK_THEME=""
+	# Search system.prop in multiple locations (PROPFILE=true copies it after on_install)
+	local SYSPROP=""
+	for sp in "$MODPATH/system.prop" "$MODPATH/common/system.prop" "$TMPDIR/system.prop"; do
+		if [ -f "$sp" ]; then
+			SYSPROP="$sp"
+			break
+		fi
+	done
+	if [ -n "$SYSPROP" ]; then
+		LIGHT_THEME=$(grep '^ro.com.google.ime.theme_file=' "$SYSPROP" | cut -d= -f2)
+		DARK_THEME=$(grep '^ro.com.google.ime.d_theme_file=' "$SYSPROP" | cut -d= -f2)
+	fi
+	printf '{"lightTheme":"%s","darkTheme":"%s"}' "$LIGHT_THEME" "$DARK_THEME" >"$CONFIG_JSON"
+
 	# Get current Gboard version
 	get_version
 	ui_print_lang "current_gboard_version"
@@ -311,5 +380,5 @@ set_permissions() {
 	# Open Telegram and YouTube links (non-blocking)
 	nohup am start -a android.intent.action.VIEW -d "https://t.me/apmodsx" >/dev/null 2>&1 &
 	sleep 3.0
-	nohup am start -a android.intent.action.VIEW -d "https://t.me/boost/apmodsx" >/dev/null 2>&1 &
+	nohup am start -a android.intent.action.VIEW -d "https://donate.dsorak.com/" >/dev/null 2>&1 &
 }

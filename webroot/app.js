@@ -36,7 +36,9 @@ const i18n = {
         themesFound: 'Temas encontrados',
         noThemesFound: 'Sin temas disponibles',
         loadThemesError: 'Error cargando temas',
-        verifyModuleFirst: 'Verifique el módulo primero'
+        verifyModuleFirst: 'Verifique el módulo primero',
+        telegramBanner: '¡Únete a nuestro canal de Telegram!',
+        donateBanner: 'Donar'
     },
     en: {
         headerSubtitle: 'KernelSU WebUI — gboardlite_apmods',
@@ -72,7 +74,9 @@ const i18n = {
         themesFound: 'Themes found',
         noThemesFound: 'No themes available',
         loadThemesError: 'Error loading themes',
-        verifyModuleFirst: 'Verify module first'
+        verifyModuleFirst: 'Verify module first',
+        telegramBanner: 'Join our Telegram channel!',
+        donateBanner: 'Donate'
     }
 };
 
@@ -110,8 +114,8 @@ function toggleLanguage() {
 let moduleActive = false;
 let availableThemes = [];
 const MODDIR = '/data/adb/modules/gboardlite_apmods';
-const THEME_PATH = '/system/etc/gboard_theme';
 const CONFIG_PATH = `${MODDIR}/system.prop`;
+const WEBROOT_PATH = `${MODDIR}/webroot`;
 
 // =========================================
 // Log
@@ -171,6 +175,18 @@ function setStatus(active, msg) {
         : `<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> ${msg}`;
 }
 
+function showCurrentConfig(lightTheme, darkTheme) {
+    const cfgEl = document.getElementById('currentConfig');
+    const cfgContent = document.getElementById('configContent');
+    cfgContent.innerHTML = `
+        <div style="font-size:12px;color:#94a3b8;margin-bottom:6px;">☀️ ${t('currentLightTheme')} <strong>${lightTheme || t('notConfigured')}</strong></div>
+        <div class="config-line">ro.com.google.ime.theme_file=${lightTheme || ''}</div>
+        <div style="font-size:12px;color:#94a3b8;margin:8px 0 6px;">🌙 ${t('currentDarkTheme')} <strong>${darkTheme || t('notConfigured')}</strong></div>
+        <div class="config-line">ro.com.google.ime.d_theme_file=${darkTheme || ''}</div>
+    `;
+    cfgEl.style.display = 'block';
+}
+
 // =========================================
 // KSU Shell
 // =========================================
@@ -178,6 +194,32 @@ async function exec(cmd) {
     if (typeof ksu?.exec !== 'function') throw new Error('KSU API unavailable');
     const r = await ksu.exec(cmd);
     return r?.toString() || '';
+}
+
+// =========================================
+// Telegram Banner (WebView compatible)
+// =========================================
+function openTelegram(e) {
+    e.preventDefault();
+    // Open Telegram via Android intent (non-blocking, detached)
+    if (typeof ksu?.exec === 'function') {
+        try {
+            ksu.exec('nohup am start -a android.intent.action.VIEW -d "https://t.me/apmodsx" >/dev/null 2>&1 &');
+            return;
+        } catch (_) { }
+    }
+    window.location.href = 'https://t.me/apmodsx';
+}
+
+function openDonate(e) {
+    e.preventDefault();
+    if (typeof ksu?.exec === 'function') {
+        try {
+            ksu.exec('nohup am start -a android.intent.action.VIEW -d "https://donate.dsorak.com/" >/dev/null 2>&1 &');
+            return;
+        } catch (_) { }
+    }
+    window.location.href = 'https://donate.dsorak.com/';
 }
 
 // =========================================
@@ -200,13 +242,13 @@ async function init() {
         if (exists.includes('ok')) {
             setStatus(true, t('moduleFound'));
 
-            // Config check
+            // Config file check
             const cfgExists = await exec(`test -f "${CONFIG_PATH}" && echo ok || echo no`);
             document.getElementById('configStatus').textContent = cfgExists.includes('ok') ? '✓' : '!';
             document.getElementById('configStatus').style.color = cfgExists.includes('ok') ? '#4ade80' : '#fbbf24';
 
             await loadThemes();
-            await readConfig();
+            await loadConfig();
         } else {
             setStatus(false, t('moduleNotFound'));
             document.getElementById('configStatus').textContent = '✗';
@@ -222,8 +264,12 @@ async function init() {
 }
 
 // =========================================
-// Themes
+// Load Themes from themes.json
 // =========================================
+let themeData = [];
+let selectedLightTheme = '';
+let selectedDarkTheme = '';
+
 async function loadThemes() {
     log('Loading themes...', 'info');
     try {
@@ -231,79 +277,188 @@ async function loadThemes() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
 
-        const themes = [...new Set(
-            data.map(i => (i.filename || '').trim()).filter(n => n.endsWith('.zip'))
-        )].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+        // Deduplicate by filename
+        const seen = new Set();
+        themeData = data.filter(i => {
+            const fn = (i.filename || '').trim();
+            if (!fn.endsWith('.zip') || seen.has(fn)) return false;
+            seen.add(fn);
+            return true;
+        }).sort((a, b) => a.filename.localeCompare(b.filename, undefined, { sensitivity: 'base' }));
 
-        availableThemes = themes;
-        document.getElementById('themeCount').textContent = themes.length;
-        populateSelector(themes);
-        log(`${t('themesFound')}: ${themes.length}`, 'success');
+        availableThemes = themeData.map(t => t.filename);
+        document.getElementById('themeCount').textContent = themeData.length;
+        populateThemeCards();
+        log(`${t('themesFound')}: ${themeData.length}`, 'success');
     } catch (e) {
         log(`${t('loadThemesError')}: ${e.message}`, 'error');
         availableThemes = [];
+        themeData = [];
         document.getElementById('themeCount').textContent = '0';
     }
 }
 
-function populateSelector(themes) {
-    const selLight = document.getElementById('lightTheme');
-    const selDark = document.getElementById('darkTheme');
-    const defaultOpt = `<option value="">${t('selectOption')}</option>`;
-    selLight.innerHTML = defaultOpt;
-    selDark.innerHTML = defaultOpt;
-    themes.forEach(th => {
-        const label = th.replace('.zip', '');
-        selLight.appendChild(Object.assign(document.createElement('option'), { value: th, textContent: label }));
-        selDark.appendChild(Object.assign(document.createElement('option'), { value: th, textContent: label }));
+function populateThemeCards() {
+    const lightGrid = document.getElementById('lightThemeGrid');
+    const darkGrid = document.getElementById('darkThemeGrid');
+    lightGrid.innerHTML = '';
+    darkGrid.innerHTML = '';
+
+    themeData.forEach(theme => {
+        lightGrid.appendChild(createThemeCard(theme, 'light'));
+        darkGrid.appendChild(createThemeCard(theme, 'dark'));
     });
+
+    // Peek scroll hint: scroll right briefly then back to show more themes exist
+    setTimeout(() => peekScroll(lightGrid), 600);
+    setTimeout(() => peekScroll(darkGrid), 900);
+}
+
+function peekScroll(el) {
+    if (!el || el.scrollWidth <= el.clientWidth) return;
+    el.scrollTo({ left: 80, behavior: 'smooth' });
+    setTimeout(() => el.scrollTo({ left: 0, behavior: 'smooth' }), 500);
+}
+
+function createThemeCard(theme, mode) {
+    const card = document.createElement('div');
+    card.className = 'theme-card';
+    card.dataset.filename = theme.filename;
+    card.dataset.mode = mode;
+
+    const label = theme.filename.replace('.zip', '');
+
+    if (theme.preview) {
+        const img = document.createElement('img');
+        img.className = 'theme-card-img';
+        img.src = theme.preview;
+        img.alt = label;
+        img.loading = 'lazy';
+        img.onerror = function () {
+            this.replaceWith(createPlaceholder());
+        };
+        card.appendChild(img);
+    } else {
+        card.appendChild(createPlaceholder());
+    }
+
+    const nameEl = document.createElement('div');
+    nameEl.className = 'theme-card-name';
+    nameEl.textContent = label;
+    card.appendChild(nameEl);
+
+    card.addEventListener('click', () => selectThemeCard(theme.filename, mode));
+    return card;
+}
+
+function createPlaceholder() {
+    const ph = document.createElement('div');
+    ph.className = 'theme-card-placeholder';
+    ph.textContent = '🎨';
+    return ph;
+}
+
+function selectThemeCard(filename, mode) {
+    const gridId = mode === 'light' ? 'lightThemeGrid' : 'darkThemeGrid';
+    const labelId = mode === 'light' ? 'lightThemeSelected' : 'darkThemeSelected';
+
+    // Update state
+    if (mode === 'light') selectedLightTheme = filename;
+    else selectedDarkTheme = filename;
+
+    // Update visual selection
+    document.querySelectorAll(`#${gridId} .theme-card`).forEach(c => {
+        c.classList.toggle('selected', c.dataset.filename === filename);
+    });
+
+    // Update label
+    document.getElementById(labelId).textContent = `— ${filename.replace('.zip', '')}`;
+
+    // Scroll selected card into view (horizontal)
+    const selected = document.querySelector(`#${gridId} .theme-card.selected`);
+    if (selected) selected.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
+
+    log(`${mode === 'light' ? '☀️' : '🌙'} ${filename.replace('.zip', '')}`, 'info');
 }
 
 // =========================================
-// Config Read
+// Read themes directly from system.prop
 // =========================================
-async function readConfig() {
+async function readThemesFromProp() {
     try {
         const raw = await exec(`cat "${CONFIG_PATH}" 2>/dev/null || echo ""`);
-        const content = raw.trim();
-        if (!content) return;
-
-        const lines = content.split(/\r?\n/).map(l => l.trim()).filter(l => l && !l.startsWith('#'));
-
-        let lightTheme = '';
-        let darkTheme = '';
-        for (const line of lines) {
-            if (line.startsWith('ro.com.google.ime.theme_file=')) {
-                lightTheme = line.split('=')[1]?.trim() || '';
-            } else if (line.startsWith('ro.com.google.ime.d_theme_file=')) {
-                darkTheme = line.split('=')[1]?.trim() || '';
+        let light = '';
+        let dark = '';
+        raw.split('\n').forEach(line => {
+            const l = line.trim();
+            if (l.startsWith('ro.com.google.ime.theme_file=')) {
+                light = l.split('=')[1] || '';
+            } else if (l.startsWith('ro.com.google.ime.d_theme_file=')) {
+                dark = l.split('=')[1] || '';
             }
-        }
-
-        // Pre-select in dropdowns
-        if (lightTheme && availableThemes.includes(lightTheme)) {
-            document.getElementById('lightTheme').value = lightTheme;
-        }
-        if (darkTheme && availableThemes.includes(darkTheme)) {
-            document.getElementById('darkTheme').value = darkTheme;
-        }
-
-        // Show current config
-        const cfgEl = document.getElementById('currentConfig');
-        const cfgContent = document.getElementById('configContent');
-        cfgContent.innerHTML = `
-            <div style="font-size:12px;color:#94a3b8;margin-bottom:6px;">☀️ ${t('currentLightTheme')} <strong>${lightTheme || t('notConfigured')}</strong></div>
-            <div class="config-line">ro.com.google.ime.theme_file=${lightTheme}</div>
-            <div style="font-size:12px;color:#94a3b8;margin:8px 0 6px;">🌙 ${t('currentDarkTheme')} <strong>${darkTheme || t('notConfigured')}</strong></div>
-            <div class="config-line">ro.com.google.ime.d_theme_file=${darkTheme}</div>
-        `;
-        cfgEl.style.display = 'block';
-
-        log(`☀️ ${t('currentLightTheme')} ${lightTheme || t('notConfigured')}`, 'info');
-        log(`🌙 ${t('currentDarkTheme')} ${darkTheme || t('notConfigured')}`, 'info');
+        });
+        return { lightTheme: light.trim(), darkTheme: dark.trim() };
     } catch (e) {
-        log(`Config read error: ${e.message}`, 'error');
+        log(`system.prop read error: ${e.message}`, 'warning');
+        return { lightTheme: '', darkTheme: '' };
     }
+}
+
+// =========================================
+// Load Config from config.json + sync from system.prop
+// =========================================
+async function loadConfig() {
+    let lightTheme = '';
+    let darkTheme = '';
+    let needsSync = false;
+
+    // 1. Try config.json first
+    try {
+        const res = await fetch('config.json', { cache: 'no-store' });
+        if (res.ok) {
+            const cfg = await res.json();
+            lightTheme = (cfg.lightTheme || '').trim();
+            darkTheme = (cfg.darkTheme || '').trim();
+        }
+    } catch (_) { }
+
+    // 2. If config.json has empty values, read from system.prop
+    if (!lightTheme || !darkTheme) {
+        log('Syncing config from system.prop...', 'info');
+        const propCfg = await readThemesFromProp();
+        if (!lightTheme && propCfg.lightTheme) {
+            lightTheme = propCfg.lightTheme;
+            needsSync = true;
+        }
+        if (!darkTheme && propCfg.darkTheme) {
+            darkTheme = propCfg.darkTheme;
+            needsSync = true;
+        }
+    }
+
+    // 3. Sync config.json so it persists for next load
+    if (needsSync && (lightTheme || darkTheme)) {
+        try {
+            const configJson = JSON.stringify({ lightTheme, darkTheme });
+            await exec(`echo '${configJson}' > "${WEBROOT_PATH}/config.json"`);
+            await exec(`chmod 644 "${WEBROOT_PATH}/config.json"`);
+            log('Config synced from system.prop', 'success');
+        } catch (e) {
+            log(`Config sync error: ${e.message}`, 'warning');
+        }
+    }
+
+    // 4. Pre-select in card grids
+    if (lightTheme && availableThemes.includes(lightTheme)) {
+        selectThemeCard(lightTheme, 'light');
+    }
+    if (darkTheme && availableThemes.includes(darkTheme)) {
+        selectThemeCard(darkTheme, 'dark');
+    }
+
+    showCurrentConfig(lightTheme, darkTheme);
+    log(`☀️ ${t('currentLightTheme')} ${lightTheme || t('notConfigured')}`, 'info');
+    log(`🌙 ${t('currentDarkTheme')} ${darkTheme || t('notConfigured')}`, 'info');
 }
 
 // =========================================
@@ -312,34 +467,28 @@ async function readConfig() {
 async function applyThemes() {
     if (!moduleActive) { showAlert(t('verifyModuleFirst'), 'warning'); return; }
 
-    const lightTheme = document.getElementById('lightTheme').value;
-    const darkTheme = document.getElementById('darkTheme').value;
+    const lightTheme = selectedLightTheme;
+    const darkTheme = selectedDarkTheme;
     if (!lightTheme || !darkTheme) { showAlert(t('selectBothThemes'), 'warning'); return; }
 
     showLoading(true);
     log(t('applyingThemes'), 'info');
 
     try {
-        // Remove old entries
+        // Update system.prop: remove old entries and write new ones
         await exec(`sed -i '/^ro.com.google.ime.theme_file=/d' "${CONFIG_PATH}"`);
         await exec(`sed -i '/^ro.com.google.ime.d_theme_file=/d' "${CONFIG_PATH}"`);
-
-        // Write light and dark themes
         await exec(`echo "ro.com.google.ime.theme_file=${lightTheme}" >> "${CONFIG_PATH}"`);
         await exec(`echo "ro.com.google.ime.d_theme_file=${darkTheme}" >> "${CONFIG_PATH}"`);
-
-        // Fix permissions
         await exec(`chmod 644 "${CONFIG_PATH}" && chown root:root "${CONFIG_PATH}"`);
 
+        // Update config.json in webroot so it persists for next WebUI load
+        const configJson = JSON.stringify({ lightTheme, darkTheme });
+        await exec(`echo '${configJson}' > "${WEBROOT_PATH}/config.json"`);
+        await exec(`chmod 644 "${WEBROOT_PATH}/config.json"`);
+
         // Update display
-        const cfgContent = document.getElementById('configContent');
-        cfgContent.innerHTML = `
-            <div style="font-size:12px;color:#94a3b8;margin-bottom:6px;">☀️ ${t('currentLightTheme')} <strong>${lightTheme}</strong></div>
-            <div class="config-line">ro.com.google.ime.theme_file=${lightTheme}</div>
-            <div style="font-size:12px;color:#94a3b8;margin:8px 0 6px;">🌙 ${t('currentDarkTheme')} <strong>${darkTheme}</strong></div>
-            <div class="config-line">ro.com.google.ime.d_theme_file=${darkTheme}</div>
-        `;
-        document.getElementById('currentConfig').style.display = 'block';
+        showCurrentConfig(lightTheme, darkTheme);
 
         showAlert(t('themesApplied'), 'success');
         log(t('configSaved'), 'success');

@@ -1,5 +1,28 @@
 # 📋 Changelog
 
+## [3.0.0] - 2026-02-11 🚀
+
+### ✨ Added
+
+- **Visual Theme Previews** - Completely redesigned theme selection UI featuring image previews for a more intuitive experience
+- **Horizontal Theme Picker** - Smooth horizontal scrolling for theme cards with a "peek" animation to guide the user
+- **Native Donation Integration** - Added `donate` field in `module.prop` for native KernelSU/Magisk Manager support
+- **Enhanced Telegram Banner** - New eye-catching, animated banner with better compatibility for Android WebViews
+- **Click-to-Select UI** - Replaced old dropdowns with a premium card-based interface
+
+### 🔧 Changed
+
+- **Version Bump** - Major update to v3.0.0 (versionCode 300)
+- **Robust Config Sync** - Improved theme persistence with automatic syncing between `config.json` and `system.prop`
+- **Installer Optimization** - Improved `system.prop` detection during installation for better initial config generation
+- **UI Tweaks** - Cleaned up installation messages by removing redundant "No keyboards found" notification
+
+### 🐛 Fixed
+
+- **Initial Load Issue** - Fixed WebUI not displaying default themes on the first reboot after flashing
+
+---
+
 ## [2.4.0] - 2026-02-10 🚀
 
 ### 🐛 Fixed
@@ -198,6 +221,7 @@
 
 | Version    | Release Date | Type   | Key Milestone              |
 |------------|--------------|--------|----------------------------|
+| 3.0.0      | 2026-02-11   | Stable | Visual Previews + Premium UI |
 | 2.4.0      | 2026-02-10   | Stable | Fix duplicate app listing  |
 | 2.3.0      | 2026-02-10   | Stable | Code refactor + retry DL   |
 | 2.2.0      | 2025-12-08   | Stable | English WebUI + APK 16.3.6 |
@@ -212,7 +236,7 @@
 
 ## 🎯 Roadmap
 
-### Version 2.5.0 (Planned)
+### Version 3.1.0 (Planned)
 
 - [ ] APK checksum/hash verification for download integrity
 - [ ] Support for additional languages (Portuguese, French)
@@ -222,7 +246,7 @@
 
 ## 🔗 Links
 
-- **Download Latest**: [v2.4.0 Release](../../releases/latest)
+- **Download Latest**: [v3.0.0 Release](../../releases/latest)
 - **Report Issues**: [GitHub Issues](../../issues)
 - **Join Community**: [Telegram @apmodsx](https://t.me/apmodsx)
 - **Get Support**: [Telegram Chat](https://t.me/apmodsgroup)
@@ -254,9 +278,9 @@
 
 <div align="center">
 
-**🌍 ¡Soporte multilingüe llega en v1.1.0! 🌍**
+**📸 ¡Previsualizaciones visuales llegan en v3.0.0! 📸**
 
-*Haciendo la instalación más accesible para todos*
+*Haciendo la personalización más intuitiva que nunca*
 
 **Maintained by [APMods Team](https://t.me/apmodsx)**
 

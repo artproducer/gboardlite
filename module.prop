@@ -1,9 +1,9 @@
 id=gboardlite_apmods
 name=Gboard Lite Online Installer
-version=2.4
-versionCode=124
-author=@apmods
+version=3.0
+versionCode=300
+author=@apmodsx
 description=Online installer of Gboard Lite optimized for ARMv7 and ARM64 devices (Android 8.1+). Ideal for custom ROMs.
 updateJson=https://raw.githubusercontent.com/artproducer/gboardlite/main/update.json
 support=https://t.me/apmodsx
-about=https://paypal.me/apmodsgroup
+donate=https://donate.dsorak.com/
